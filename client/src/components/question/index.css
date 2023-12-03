@@ -1,0 +1,24 @@
+#questionForm {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+ }
+
+ #formTextInput {
+    height: 200px;
+ }
+
+ #formTextInput::placeholder {
+    vertical-align: top;
+  }
+ 
+ #postQuestion {
+    background-color: #0096FF;
+    color: white; 
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px; 
+    display: inline; 
+    margin-right: 15px;
+ }
+ 

@@ -1,0 +1,25 @@
+.postTitle{
+    display: grid;
+    grid-template-columns: 1fr 6fr 3fr;
+    padding: 10px;
+    border-bottom: 2px dotted;
+}
+
+.postStats > h5{
+    margin: 0;
+}
+
+.quesLinks{
+    display: flex;
+    flex-direction: column;
+}
+
+.home-tag-buttons > button{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.question{
+    text-decoration: underline;
+    color: blue;
+}

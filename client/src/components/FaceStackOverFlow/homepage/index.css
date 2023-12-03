@@ -1,0 +1,19 @@
+#sorting-panel{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    border-bottom: 2px dotted;
+ }
+
+ #home-title, #sorting-buttons, #tag-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+ }
+
+#ask-question{
+    background-color: #0096FF;
+    color: white;
+    
+}

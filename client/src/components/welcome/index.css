@@ -1,0 +1,16 @@
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+#auth-btn {
+    font-size: 20px;
+    padding: 5px;
+    margin-bottom: 20px; 
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    background-color: lightgrey;
+}

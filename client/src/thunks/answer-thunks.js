@@ -22,3 +22,10 @@ export const updateAnswerVoteThunk = createAsyncThunk(
    const answer = await service.updateAnswerVotes(aid, isIncrement);
    return answer;
 })
+
+export const updateAnswerAcceptedThunk = createAsyncThunk(
+  'answers/updateAnswerAccepted',
+  async ({aid, isAccepted}) => {
+   const answer = await service.updateAnswerAccepted(aid, isAccepted);
+   return answer;
+})

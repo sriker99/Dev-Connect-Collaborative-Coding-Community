@@ -26,9 +26,14 @@ export const updateQuestion = async (qid) => {
 }
 
 export const updateQuestionVotes = async (qid, isIncrement) => {
-    console.log("SERVICE Inc", isIncrement);
     const response = await axios.put(`${API_URL}/${qid}/votes?isIncrement=${isIncrement}`);
     const question = response.data;
     return question;
+}
+
+export const paginatedQuestions =  async (page, limit) => {
+    const response = await axios.get(`${API_URL}/paginatedQuestions?page=${page}&limit=${limit}`);
+    const questions = response.data;
+    return questions;
 }
 

@@ -12,4 +12,8 @@ const upvoteAnswer = async(aid) => await answersModel.findOneAndUpdate({_id: aid
 
 const downvoteAnswer = async(aid) => await answersModel.findOneAndUpdate({_id: aid}, {$inc: {votes: -1}}, {new: true});
 
-module.exports = { createAnswersAndUpdateQuestion, findAllAnswers, upvoteAnswer, downvoteAnswer };
+const acceptAnswer = async(aid, accept) => await answersModel.findOneAndUpdate({_id: aid}, {accept: accept}, {new: true});
+
+const removeAnswerAcceptance = async(aid) => await answersModel.findOneAndUpdate({_id: aid}, {accept: false}, {new: true});
+
+module.exports = { createAnswersAndUpdateQuestion, findAllAnswers, upvoteAnswer, downvoteAnswer, acceptAnswer,  removeAnswerAcceptance};

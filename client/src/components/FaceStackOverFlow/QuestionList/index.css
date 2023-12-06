@@ -23,3 +23,11 @@
     text-decoration: underline;
     color: blue;
 }
+
+.question-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+  }

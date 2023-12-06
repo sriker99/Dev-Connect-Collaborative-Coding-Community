@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import QuestionForm from '../question';
 import { formatQuestionMetadata } from '../FaceStackOverFlow/QuestionList';
 import './index.css';
-import { createAnswerThunk, updateAnswerVoteThunk } from '../../thunks/answer-thunks';
+import { createAnswerThunk, updateAnswerAcceptedThunk, updateAnswerVoteThunk } from '../../thunks/answer-thunks';
 import { findQuestionByIdThunk, updateQuestionThunk, updateQuestionVoteThunk } from '../../thunks/question-thunks';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { checkAcceptAnswer, paginateAcceptedAnswers, paginatedAnswers } from '../../services/answer-service';
+import { updateQuestion } from '../../reducers/data-reducer';
 
 const AnswerPage = ({question}) => {
     const { loggedIn, user} = useAuthContext();
@@ -16,14 +18,67 @@ const AnswerPage = ({question}) => {
     });
     const [errors, setErrors] = useState({});
     const [page, setPage] = useState('questionInfo');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentAcceptedPage, setCurrentAcceptedPage] = useState(1);
+    const [currentSetOfAnswers, setCurrentSetOfAnswers] = useState([]);
+    const answersPerPage = 5;
+    const totalPages = Math.ceil(question.ansIds.length / answersPerPage);
+    const [accept, setAccept] = useState(false);
+    const [ansid, setAnsid] = useState('');
 
-    useEffect(() => {
+    const questionFromData = data.questions.find(q => q.qid === question.qid);
+    question = {...questionFromData}
+
+
+    useEffect(() => { 
+        console.log("IN USEEFFECT");
+        checkAcceptAnswer(question.qid).then((data) => {
+            console.log(data);
+            setAccept(data.accept);
+            setAnsid(data.ansId);
+            if(data.accept) {
+                console.log("IN IF LOOOOP");
+                paginateAcceptedAnswers(data.ansId, question.qid, currentAcceptedPage, answersPerPage).then((data) => {
+                    console.log(data);
+                    setCurrentSetOfAnswers(data);
+            })} else {
+                paginatedAnswers(question.qid, currentPage, answersPerPage).then((data) => {
+                    setCurrentSetOfAnswers(data.answersPerPage);
+            })
+            }
+        })
         dispatch(findQuestionByIdThunk(question.qid));
         dispatch(updateQuestionThunk(question.qid));
     }, [dispatch, question.qid]);
 
-    const questionFromData = data.questions.find(q => q.qid === question.qid);
-    question = {...questionFromData}
+    const handlePrevPage = useCallback(() => {
+       
+        if(accept) {
+          paginateAcceptedAnswers(ansid, question.qid,  Math.max(currentAcceptedPage - 1, 1), answersPerPage).then((data) => {
+              setCurrentSetOfAnswers(data);
+          })} else {
+              paginatedAnswers(question.qid,  Math.max(currentPage - 1, 1), answersPerPage).then((data) => {
+              setCurrentSetOfAnswers(data.answersPerPage);
+          })
+        }
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+        setCurrentAcceptedPage((prevAcceptedPage) =>  Math.max(prevAcceptedPage - 1, 1));
+      }, [currentPage, currentAcceptedPage, ansid]);
+
+    
+    const handleNextPage = useCallback(() => {
+        if(accept) {
+            paginateAcceptedAnswers(ansid, question.qid, Math.min(currentAcceptedPage + 1, totalPages), answersPerPage).then((data) => {
+                setCurrentSetOfAnswers(data);
+            })} else {
+                paginatedAnswers(question.qid, Math.min(currentPage + 1, totalPages), answersPerPage).then((data) => {
+                setCurrentSetOfAnswers(data.answersPerPage);
+            })
+        }
+        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+        setCurrentAcceptedPage((prevAcceptedPage) =>  Math.min(prevAcceptedPage + 1, totalPages));
+    },[currentPage, currentAcceptedPage, ansid])
+
   
     const handleChange = (e) => {
         setInput({...input, [e.target.name]: e.target.value})
@@ -57,22 +112,54 @@ const AnswerPage = ({question}) => {
     const askedBy = askDetails.substring(0, askDetails.indexOf(str));
     const askDate = askDetails.substring(askDetails.indexOf(str)+str.length, askDetails.length)
 
-    question.ansIds = question.ansIds.map(id => data.answers.find(a => a.aid === id))
-    .sort((a, b) => new Date(b.ansDate) - new Date(a.ansDate))
-    .map(answer => answer.aid);
+    const handleAcceptedAnswer = (aid) => {
+        dispatch(updateAnswerAcceptedThunk({aid: aid, isAccepted: true}));
+        if(accept) {
+            paginateAcceptedAnswers(aid, question.qid,  Math.max(currentAcceptedPage - 1, 1), answersPerPage).then((data) => {
+                setCurrentSetOfAnswers(data);
+            })} else {
+                paginatedAnswers(question.qid,  Math.max(currentPage - 1, 1), answersPerPage).then((data) => {
+                setCurrentSetOfAnswers(data.answersPerPage);
+            })
+          }
+        setAnsid(aid);
+        setAccept(() => true);
+    }
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const answersPerPage = 5;
-    const indexOfLastAnswer= currentPage * answersPerPage;
-    const indexOfFirstAnswer = indexOfLastAnswer - answersPerPage;
-    const currentSetOfAnswersForQuestion = question.ansIds.slice(indexOfFirstAnswer, indexOfLastAnswer);
-    const totalPages = Math.ceil(question.ansIds.length / answersPerPage);
-    const handlePrevPage = () => {
-      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-    const handleNextPage = () => {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
+    //  question.ansIds = question.ansIds.map(id => data.answers.find(a => a.aid === id))
+    // .sort((a, b) => new Date(b.ansDate) - new Date(a.ansDate))
+    // .map(answer => answer.aid);
+    
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const answersPerPage = 5;
+    // const indexOfLastAnswer= currentPage * answersPerPage;
+    // const indexOfFirstAnswer = indexOfLastAnswer - answersPerPage;
+    // const currentSetOfAnswersForQuestion = question.ansIds.slice(indexOfFirstAnswer, indexOfLastAnswer);
+    // const totalPages = Math.floor(question.ansIds.length / answersPerPage);
+    // const handlePrevPage = () => {
+    //   setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    //   setCurrentAcceptedPage((prevAcceptedPage) =>  Math.max(prevAcceptedPage - 1, 1));
+    //   if(accept) {
+    //     paginateAcceptedAnswers(ansid, question.qid, currentAcceptedPage, answersPerPage).then((data) => {
+    //         setCurrentSetOfAnswers(data);
+    //     })} else {
+    //         paginatedAnswers(question.qid, currentPage, answersPerPage).then((data) => {
+    //         setCurrentSetOfAnswers(data.answersPerPage);
+    //     })
+    //     }
+    // };
+    // const handleNextPage = () => {
+    //   setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    //   setCurrentAcceptedPage((prevAcceptedPage) =>  Math.min(prevAcceptedPage + 1, totalPages));
+    //   if(accept) {
+    //     paginateAcceptedAnswers(ansid, question.qid, currentAcceptedPage, answersPerPage).then((data) => {
+    //         setCurrentSetOfAnswers(data);
+    //     })} else {
+    //         paginatedAnswers(question.qid, currentPage, answersPerPage).then((data) => {
+    //         setCurrentSetOfAnswers(data.answersPerPage);
+    //     })
+    //     }
+    // };
     const handleQuestionUpvote = () => {
         dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: true}));
     }
@@ -86,7 +173,6 @@ const AnswerPage = ({question}) => {
     const handleAnswerDownvote = (aid) => {
         dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: false}));
     }
-
     const questionAnswerInfo = 
     <div id="answerContainer"> 
         <div id="answersHeader">
@@ -104,18 +190,17 @@ const AnswerPage = ({question}) => {
                     {askedBy}<br />asked {askDate}
                 </div>
                 <br/>
-                <div id="arrowContainer">
-                    <button className='arrow-up' onClick={handleQuestionUpvote}></button>
-                    <button className='arrow-down' onClick={handleQuestionDownvote}></button>
-                    <div>{question.votes}</div>
-                </div>
+                { loggedIn && 
+                    <div id="arrowContainer">
+                        <button className='arrow-up' onClick={handleQuestionUpvote}></button>
+                        <button className='arrow-down' onClick={handleQuestionDownvote}></button>
+                        <div>{question.votes}</div>
+                    </div>
+                }
             </div>
         </div>
         <div id="answerDetail">
-            {currentSetOfAnswersForQuestion.map(answerId => {
-        // Find the answer in the data
-            const answer = data.answers.find(a => a.aid === answerId);
-
+            {currentSetOfAnswers.map(answer => {
             const answerDetails = formatQuestionMetadata(answer.ansBy, answer.ansDate);
             const str = "asked";
             const ansBy = answerDetails.substring(0, answerDetails.indexOf(str));
@@ -126,14 +211,22 @@ const AnswerPage = ({question}) => {
                 <div id="answer-row" key={answer.aid}>
                     <div className="answerText" dangerouslySetInnerHTML={{ __html: answer.text }} />
                     <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
-                    <div id="arrowContainer">
-                        <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
-                        <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
-                        <div>{answer.votes}</div>
+                    {loggedIn && 
+                    <div>
+                        <div id="arrowContainer">
+                            <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
+                            <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
+                            <div>{answer.votes}</div>
+                        </div>
+                        <div>
+                            <button id="pin-answer" onClick={() => handleAcceptedAnswer(answer.aid)}>Accept</button>
+                         </div>
                     </div>
+                    }
                 </div>
             );
         })}
+        {currentSetOfAnswers.length > 0 && (
             <div> 
                 <button onClick={handlePrevPage} disabled={currentPage === 1}>
                   Previous
@@ -143,6 +236,7 @@ const AnswerPage = ({question}) => {
                     Next
                 </button>
             </div>
+        )}
         </div>
         { loggedIn && 
             <button id="answer-question" onClick={() => setPage('answerForm')}>Answer Question</button>

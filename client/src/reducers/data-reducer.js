@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createQuestionThunk, findQuestionByIdThunk, findQuestionThunk, updateQuestionThunk, updateQuestionVoteThunk } from "../thunks/question-thunks.js";
 import { createTagThunk, findTagThunk } from "../thunks/tag-thunks.js";
-import { createAnswerThunk, findAnswerThunk, updateAnswerVoteThunk } from "../thunks/answer-thunks.js";
+import { createAnswerThunk, findAnswerThunk, updateAnswerAcceptedThunk, updateAnswerVoteThunk } from "../thunks/answer-thunks.js";
 
 const initialState = {
     questions: [],
@@ -78,23 +78,26 @@ const dataSlice = createSlice ({
                 return answer;
             });
            return {...state, answers: updatedAnswers};
+        },
+        [updateAnswerAcceptedThunk.fulfilled]: (state, { payload }) => {
+            const updatedAnswers = payload;
+           return {...state, answers: updatedAnswers};
         }
     },
     reducers: {
-        // authReducer(state, action) {
-        //     switch (action.type) {
-        //         case 'LOGIN':
-        //             return {user: action.payload};
-        //         case 'LOGOUT':
-        //             return {user: null};
-        //         default:
-        //             return state;
-        //     }
-        // },
         addQuestion(state, action) {
             const updatedQuestions = [...state.questions, action.payload];
             const updatedData = {...state, questions: updatedQuestions};
             return updatedData;
+        },
+        updateQuestion(state, action) {
+            const updatedQuestions = state.questions.map(question => {
+                if (question.qid === action.payload.qid) {
+                    return action.payload;
+                }
+                return question;
+            });
+           return {...state, questions: updatedQuestions};
         },
         addAnswer(state, action) {
             const { newAnswer, question} = action.payload;
@@ -148,6 +151,6 @@ const dataSlice = createSlice ({
 }
 })
 
-export const { addQuestion, addAnswer, addTag, addTags, incrementViews } = dataSlice.actions;
+export const { addQuestion, addAnswer, addTag, addTags, incrementViews, updateQuestion } = dataSlice.actions;
 export default dataSlice.reducer;
   

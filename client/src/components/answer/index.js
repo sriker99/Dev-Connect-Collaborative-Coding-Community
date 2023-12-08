@@ -6,10 +6,23 @@ import './index.css';
 import { createAnswerThunk, updateAnswerVoteThunk } from '../../thunks/answer-thunks';
 import { findQuestionByIdThunk, updateQuestionThunk, updateQuestionVoteThunk } from '../../thunks/question-thunks';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import CommentsSection from '../comments'
+
+const extractAnswerComments = (aid, answerComments) => {
+    return answerComments[aid];
+}
 
 const AnswerPage = ({question}) => {
+    const commentType = {
+        QUESTION : "question",
+        ANSWER : "answer"
+    }
     const { loggedIn, user} = useAuthContext();
     const data = useSelector(state => state.data); 
+    const comments = useSelector(state => state.comments);
+    const questionComments = comments.question;
+    const answerComments = comments.answers;
+    console.log('answer', answerComments);
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         answer: '',
@@ -20,6 +33,7 @@ const AnswerPage = ({question}) => {
     useEffect(() => {
         dispatch(findQuestionByIdThunk(question.qid));
         dispatch(updateQuestionThunk(question.qid));
+        console.log("re rendering answers");
     }, [dispatch, question.qid]);
 
     const questionFromData = data.questions.find(q => q.qid === question.qid);
@@ -89,27 +103,30 @@ const AnswerPage = ({question}) => {
 
     const questionAnswerInfo = 
     <div id="answerContainer"> 
-        <div id="answersHeader">
-            <h5>{question.ansIds.length} answers</h5>
-            <h5>{question.title}</h5>
-            { loggedIn && 
-                <button id="ask-question" onClick={() => setPage('questionForm')}>Ask a Question</button>
-            }
-        </div>
-        <div id="questionBody">
-            <h5>{question.views} views</h5>
-            <div dangerouslySetInnerHTML={{ __html: question.text }} />
-            <div>
-                <div id="multiline">
-                    {askedBy}<br />asked {askDate}
-                </div>
-                <br/>
-                <div id="arrowContainer">
-                    <button className='arrow-up' onClick={handleQuestionUpvote}></button>
-                    <button className='arrow-down' onClick={handleQuestionDownvote}></button>
-                    <div>{question.votes}</div>
+        <div>
+            <div id="answersHeader">
+                <h5>{question.ansIds.length} answers</h5>
+                <h5>{question.title}</h5>
+                { loggedIn && 
+                    <button id="ask-question" onClick={() => setPage('questionForm')}>Ask a Question</button>
+                }
+            </div>
+            <div id="questionBody">
+                <h5>{question.views} views</h5>
+                <div dangerouslySetInnerHTML={{ __html: question.text }} />
+                <div>
+                    <div id="multiline">
+                        {askedBy}<br />asked {askDate}
+                    </div>
+                    <br/>
+                    <div id="arrowContainer">
+                        <button className='arrow-up' onClick={handleQuestionUpvote}></button>
+                        <button className='arrow-down' onClick={handleQuestionDownvote}></button>
+                        <div>{question.votes}</div>
+                    </div>
                 </div>
             </div>
+            <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/>
         </div>
         <div id="answerDetail">
             {currentSetOfAnswersForQuestion.map(answerId => {
@@ -123,15 +140,19 @@ const AnswerPage = ({question}) => {
 
             // Create a new div for the answer
             return (
-                <div id="answer-row" key={answer.aid}>
-                    <div className="answerText" dangerouslySetInnerHTML={{ __html: answer.text }} />
-                    <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
-                    <div id="arrowContainer">
-                        <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
-                        <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
-                        <div>{answer.votes}</div>
+                <div>
+                    <div id="answer-row" key={answer.aid}>
+                        <div className="answerText" dangerouslySetInnerHTML={{ __html: answer.text }} />
+                        <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
+                        <div id="arrowContainer">
+                            <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
+                            <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
+                            <div>{answer.votes}</div>
+                        </div>
                     </div>
+                    <CommentsSection qid={question.qid} aid={answer.aid} type={commentType.ANSWER} stateComments={answerComments[answer.aid]}/>
                 </div>
+                
             );
         })}
             <div> 

@@ -9,7 +9,8 @@ const schema = mongoose.Schema({
     ask_date_time : {type : String, required : true},
     answers : [{type : mongoose.Schema.Types.ObjectId, ref : "answers", default: []}],
     views : {type : Number, required : true, default : 0},
-    votes : {type : Number, default : 0}
+    votes : {type : Number, default : 0},
+    comments : [{type : mongoose.Schema.Types.ObjectId, ref : "comments", default: []}]
 });
 
 module.exports = mongoose.model("questions", schema);

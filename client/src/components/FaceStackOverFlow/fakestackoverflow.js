@@ -13,9 +13,10 @@ import { findQuestionThunk } from "../../thunks/question-thunks";
 import { findTagThunk } from "../../thunks/tag-thunks";
 import { findAnswerThunk } from "../../thunks/answer-thunks";
 import authReducer from "../../reducers/auth-reducer.js";
+import commentsReducer from "../../reducers/comments-reducer.js"; 
 
 const store = configureStore({
-  reducer : { data : dataReducer, nav : navReducer},
+  reducer : { data : dataReducer, nav : navReducer, comments: commentsReducer},
 });
  
 function FakeStackOverFlow() {

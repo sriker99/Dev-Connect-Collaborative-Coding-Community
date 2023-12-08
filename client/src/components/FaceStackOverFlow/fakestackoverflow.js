@@ -32,17 +32,19 @@ function FakeStackOverFlow() {
     useEffect(() => {
         const verifyCookie = async () => {
             try {
-              const { data } = await axios.post(
+              const {data} = await axios.post(
                 "http://localhost:8000",
                 {},
                 { withCredentials: true }
               );
+              console.log("DATA FROM BACKEND", data);
               const { success, user } = data;
-              console.log("AUTH CONTEXT", data);
+              console.log("AUTH CONTEXT", user);
               console.log("COOKIE", cookies);
               if (success) {
                 // If authentication is successful, set the user in state
                 setUser(user);
+                // console.log()
                 dispatch({ type: 'LOGIN', payload: user });
               } else {
                 // If authentication fails, remove the token and navigate to login

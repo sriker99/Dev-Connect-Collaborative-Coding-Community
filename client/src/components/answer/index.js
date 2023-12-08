@@ -43,6 +43,7 @@ const AnswerPage = ({question}) => {
     const questionFromData = data.questions.find(q => q.qid === question.qid);
     question = {...questionFromData}
 
+    console.log("IN ANSWER PAGE", user);
 
     useEffect(() => { 
         console.log("IN USEEFFECT");
@@ -224,11 +225,11 @@ const AnswerPage = ({question}) => {
                         <div>{question.votes}</div>
                     </div>
                 </div>
+                <div className="home-tag-buttons">
+                    {tagButtons}
+                </div>
             </div>
-            <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/>
-            <div className="home-tag-buttons">
-                {tagButtons}
-            </div>
+            <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/> 
         </div>
         <div id="answerDetail">
             {currentSetOfAnswers.map(answer => {

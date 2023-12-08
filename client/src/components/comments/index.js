@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateVotes, addCommentsToQuestion, addCommentsToAnswer} from "../../thunks/comments-thunks.js";
+import { useAuthContext } from '../../hooks/useAuthContext.js';
 
 const formatCommentMetadata = (username, postDate) => {
   const currentDate = new Date();
@@ -27,14 +28,18 @@ const formatCommentMetadata = (username, postDate) => {
 
 const CommentsSection = ({qid, aid, type, stateComments}) => {
 
+  const { loggedIn, user } = useAuthContext();
+
   if(type === 'answer') console.log('state comments section', stateComments);
   const dispatch = useDispatch();
   const [comments, setComments] = useState(stateComments);
   const [displayedComments, setDisplayedComments] = useState(stateComments);
   const [currentPage, setCurrentPage] = useState(1);
   const [newComment, setNewComment] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  console.log("IN COMMENTS", user);
 
   useEffect(() => {
     // Logic to display 3 comments per page
@@ -89,7 +94,7 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
       setErrorMessage("");
       const goodComment = {
         text: newComment,
-        username : "god",//change this when user is logged in
+        username : user.username,
         date: new Date().toString(),
         votes: 0
       }
@@ -102,13 +107,17 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
     dispatch(updateVotes(cid));
   };
 
+  const commentsHeading = () => {
+    if(type === 'question') return (<h4>Question Comments</h4>)
+    if(type === 'answer') return (<h4>Answer Comments</h4>)
+  }
   return (
     <div>
       {(loggedIn || (stateComments !== undefined && stateComments.length > 0)) && (
           <div>
             <div className="comments-container">
               <div className="comments-heading">
-                <h4>Comments Section</h4>
+                {commentsHeading()}
               </div>
               {stateComments !== undefined && displayedComments !== undefined && stateComments.length > 0 && (<div>
                 <div className="comments">

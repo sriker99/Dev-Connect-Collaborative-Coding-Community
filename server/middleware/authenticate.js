@@ -15,7 +15,7 @@ const authenticate = async (req, res, next) => {
       const decode = jwt.verify(token, "7DJGickhf");
       const user = await findUserById(decode._id);
       console.log("IN AUTHENTICATE", user);
-      res.json({success: true, data: user});
+      res.json({success: true, user: user});
     } catch (err) {
     res.clearCookie("token");
     res.json({ success: false, message: "Authentication Failed" });

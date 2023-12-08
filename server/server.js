@@ -36,10 +36,10 @@ UserController(app);
 AnswerController(app);
 QuestionController(app);
 TagController(app);
- 
+CommentsController(app);
 app.use("/", authenticate);
 
-CommentsController(app);
+
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000");

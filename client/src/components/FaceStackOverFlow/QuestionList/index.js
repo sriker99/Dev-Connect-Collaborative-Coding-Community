@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateNavState } from "../../../reducers/nav-reducer";
 import './index.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchComments } from "../../../thunks/comments-thunks";
+import { paginatedQuestions } from "../../../services/question-service";
 
 const formatQuestionMetadata = (username, postDate) => {
     const currentDate = new Date();
@@ -28,13 +29,18 @@ const formatQuestionMetadata = (username, postDate) => {
 
 const QuestionsList = ({questions, tags}) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentSetOfQuestions, setCurrentSetOfQuestions] = useState(questions);
     const questionsPerPage = 5;
-    const indexOfLastQuestion = currentPage * questionsPerPage;
-    const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-    const currentSetOfQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
-
     const totalPages = Math.ceil(questions.length / questionsPerPage);
 
+    useEffect(() => {
+      paginatedQuestions(currentPage, questionsPerPage).then((data) => {  
+        setCurrentSetOfQuestions(data.questionsPerPage);
+      }).catch((error) => {
+        console.error("Error fetching paginated questions:", error);
+      });
+    },[currentPage]);
+   
     const handlePrevPage = () => {
       setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
     };
@@ -55,8 +61,7 @@ const QuestionsList = ({questions, tags}) => {
     else{
       return (
         <div>
-          {
-          currentSetOfQuestions.map((question) => {
+          {currentSetOfQuestions.map((question) => {
             const handleQuestionClick = () => {
                 const dispatchPayload = {
                   pageStatus: 'answerPage',
@@ -83,13 +88,18 @@ const QuestionsList = ({questions, tags}) => {
                 {/* {currentSetOfQuestions.map((question) => ( */}
                 <div key={`ques-${question.qid}`} className="postTitle">
                   <div className="postStats">
-                    <h5>{`${question.ansIds.length} answers`}</h5>
+                    <h5>{`${question.votes ? question.votes : 0} votes`}</h5>
+                    <br/>
+                    <h5>{`${question.ansIds ? question.ansIds.length : 0} answers`}</h5>
                     <br/>
                     <h5>{`${question.views} views`}</h5>
                   </div>
                   <div className="quesLinks">
                     <div className="question" onClick={handleQuestionClick}>
                       {question.title}
+                    </div>
+                    <div className="question-summary">
+                      {question.text}
                     </div>
                     <div className="home-tag-buttons">
                       {tagButtons}
@@ -105,21 +115,17 @@ const QuestionsList = ({questions, tags}) => {
               
             );
           })}
-            {/* {(currentPage > 1 ) && ( */}
+          {questions.length > 0 && (
               <div> 
                 <button onClick={handlePrevPage} disabled={currentPage === 1}>
                   Previous
                 </button>
-                {/* </div> */}
-            {/* )} */}
-            {/* {(currentPage < totalPages) && ( */}
-                {/* <div> */}
-                    <span>{` Page ${currentPage} of ${totalPages} `}</span>
-                    <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                        Next
-                    </button>
+                <span>{` Page ${currentPage} of ${totalPages} `}</span>
+                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    Next
+                </button>
                 </div>
-            {/* )} */}
+        )}
             
         </div>
       );

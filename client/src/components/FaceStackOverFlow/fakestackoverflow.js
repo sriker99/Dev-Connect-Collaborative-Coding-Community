@@ -20,7 +20,9 @@ import { useAuthContext } from "../../hooks/useAuthContext.js";
 const store = configureStore({
   reducer : { data : dataReducer, nav : navReducer},
 });
- 
+
+axios.defaults.withCredentials = true;
+
 function FakeStackOverFlow() {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ function FakeStackOverFlow() {
               );
               const { success, user } = data;
               console.log("AUTH CONTEXT", data);
-    
+              console.log("COOKIE", cookies);
               if (success) {
                 // If authentication is successful, set the user in state
                 setUser(user);

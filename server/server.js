@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 
 
 let mongoose = require('mongoose');
+const { CommentsController } = require('./controllers/comments/comments-controller.js');
 let mongoDB = "mongodb://127.0.0.1:27017/fake_so";
  
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -26,7 +27,8 @@ UserController(app);
 AnswerController(app);
 QuestionController(app);
 TagController(app);
- 
+CommentsController(app);
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000");
 });

@@ -9,10 +9,23 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { checkAcceptAnswer, paginateAcceptedAnswers, paginatedAnswers } from '../../services/answer-service';
 import { updateQuestion } from '../../reducers/data-reducer';
 import { updateNavState } from "../../reducers/nav-reducer";
+import CommentsSection from '../comments'
+
+const extractAnswerComments = (aid, answerComments) => {
+    return answerComments[aid];
+}
 
 const AnswerPage = ({question}) => {
+    const commentType = {
+        QUESTION : "question",
+        ANSWER : "answer"
+    }
     const { loggedIn, user} = useAuthContext();
     const data = useSelector(state => state.data); 
+    const comments = useSelector(state => state.comments);
+    const questionComments = comments.question;
+    const answerComments = comments.answers;
+    console.log('answer', answerComments);
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         answer: '',
@@ -50,6 +63,7 @@ const AnswerPage = ({question}) => {
         })
         dispatch(findQuestionByIdThunk(question.qid));
         dispatch(updateQuestionThunk(question.qid));
+        console.log("re rendering answers");
     }, [dispatch, question.qid]);
 
     const handlePrevPage = useCallback(() => {
@@ -188,29 +202,30 @@ const AnswerPage = ({question}) => {
     }
     const questionAnswerInfo = 
     <div id="answerContainer"> 
-        <div id="answersHeader">
-            <h5>{question.ansIds.length} answers</h5>
-            <h5>{question.title}</h5>
-            { loggedIn && 
-                <button id="ask-question" onClick={() => setPage('questionForm')}>Ask a Question</button>
-            }
-        </div>
-        <div id="questionBody">
-            <h5>{question.views} views</h5>
-            <div dangerouslySetInnerHTML={{ __html: question.text }} />
-            <div>
-                <div id="multiline">
-                    {askedBy}<br />asked {askDate}
-                </div>
-                <br/>
+        <div>
+            <div id="answersHeader">
+                <h5>{question.ansIds.length} answers</h5>
+                <h5>{question.title}</h5>
                 { loggedIn && 
+                    <button id="ask-question" onClick={() => setPage('questionForm')}>Ask a Question</button>
+                }
+            </div>
+            <div id="questionBody">
+                <h5>{question.views} views</h5>
+                <div dangerouslySetInnerHTML={{ __html: question.text }} />
+                <div>
+                    <div id="multiline">
+                        {askedBy}<br />asked {askDate}
+                    </div>
+                    <br/>
                     <div id="arrowContainer">
                         <button className='arrow-up' onClick={handleQuestionUpvote}></button>
                         <button className='arrow-down' onClick={handleQuestionDownvote}></button>
                         <div>{question.votes}</div>
                     </div>
-                }
+                </div>
             </div>
+            <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/>
             <div className="home-tag-buttons">
                 {tagButtons}
             </div>
@@ -224,22 +239,26 @@ const AnswerPage = ({question}) => {
 
             // Create a new div for the answer
             return (
-                <div id="answer-row" key={answer.aid}>
-                    <div className="answerText" dangerouslySetInnerHTML={{ __html: answer.text }} />
-                    <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
-                    {loggedIn && 
+                <div>
+                    <div id="answer-row" key={answer.aid}>
+                        <div className="answerText" dangerouslySetInnerHTML={{ __html: answer.text }} />
+                        <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
+                        {loggedIn && 
                     <div>
                         <div id="arrowContainer">
-                            <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
-                            <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
-                            <div>{answer.votes}</div>
-                        </div>
-                        <div>
+                                <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
+                                <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
+                                <div>{answer.votes}</div>
+                            </div>
+                            <div>
                             <button id="pin-answer" onClick={() => handleAcceptedAnswer(answer.aid)}>Accept</button>
                          </div>
                     </div>
                     }
                 </div>
+                    <CommentsSection qid={question.qid} aid={answer.aid} type={commentType.ANSWER} stateComments={answerComments[answer.aid]}/>
+                </div>
+                
             );
         })}
         {currentSetOfAnswers.length > 0 && (

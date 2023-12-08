@@ -16,9 +16,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 import { useAuthContext } from "../../hooks/useAuthContext.js";
+import commentsReducer from "../../reducers/comments-reducer.js"; 
 
 const store = configureStore({
-  reducer : { data : dataReducer, nav : navReducer},
+  reducer : { data : dataReducer, nav : navReducer, comments: commentsReducer},
 });
 
 axios.defaults.withCredentials = true;

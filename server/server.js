@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 
 let mongoose = require('mongoose');
 const { authenticate } = require('./middleware/authenticate.js');
+const { CommentsController } = require('./controllers/comments/comments-controller.js');
 let mongoDB = "mongodb://127.0.0.1:27017/fake_so";
  
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -37,6 +38,8 @@ QuestionController(app);
 TagController(app);
  
 app.use("/", authenticate);
+
+CommentsController(app);
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000");

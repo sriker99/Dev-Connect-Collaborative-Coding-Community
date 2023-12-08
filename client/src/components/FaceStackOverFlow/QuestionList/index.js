@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateNavState } from "../../../reducers/nav-reducer";
 import './index.css'
 import { useEffect, useState } from 'react';
+import { fetchComments } from "../../../thunks/comments-thunks";
 import { paginatedQuestions } from "../../../services/question-service";
 
 const formatQuestionMetadata = (username, postDate) => {
@@ -68,6 +69,7 @@ const QuestionsList = ({questions, tags}) => {
                 };
       
                 dispatch(updateNavState(dispatchPayload));
+                dispatch(fetchComments(question.qid));
               };
             const tagButtons = question.tagIds.map((tid) => {
               const tag = tags.find((t) => t.tid === tid);

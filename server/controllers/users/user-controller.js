@@ -4,6 +4,7 @@ const { createToken } = require('../../middleware/authenticate.js');
 const UserController = (app) => {
     app.post("/api/user/login", loginUser);
     app.post("/api/user/signup", signupUser);
+    app.post("/api/user/logout", logoutUser);
 }
 
 //login user
@@ -12,13 +13,17 @@ const loginUser = async (req, res) => {
 
     try {
         const user = await login(username, password);
-        console.log(user);
-        const token = createToken(user._id);
-        res.json({success: true, user: user, token: token});
+            const token = createToken(user._id);
+            if(token) {
+            res.cookie("token", token, {
+                withCredentials: true,
+                httpOnly: false,
+              }).json({success: true, user: user, token: token}); 
+            }
     }
     catch(error) {
-        console.log("SERVER ERRPR", error);
-        res.json({success: false, user: {}, error: error});
+        console.log("SERVER ERROR", error);
+        res.json({success: false, user: {}, error: error, token: ""});
     }
 }
 
@@ -29,11 +34,21 @@ const signupUser = async (req, res) => {
     try {
         const user = await signup(username, email, password, cpassword);
         const token = createToken(user._id);
-        res.json({success: true, user: user, token: token});
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+          }).json({success: true, user: user, token: token});
     }
     catch(error) {
-        res.json({success: false, user: {}, error: error});
+        res.json({success: false, user: {}, error: error, token: ""});
     }
 }
+
+const logoutUser = async (req, res) => {
+    res.clearCookie("token");
+    res.json({ success: true });
+}
+
+
 
 module.exports = { UserController };

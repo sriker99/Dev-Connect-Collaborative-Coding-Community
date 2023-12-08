@@ -2,12 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import './index.css';
 import { updateNavState } from '../../reducers/nav-reducer';
 import { QuestionsList } from '../FaceStackOverFlow/QuestionList';
+import { useAuthContext } from '../../hooks/useAuthContext';
  
 const questionFormPageStatus = {
     pageStatus: 'questionForm'
 }
  
 const GenerateTags = ({ data }) => {
+    const { loggedIn } = useAuthContext();
     const dispatch = useDispatch();
     return data.tags.map(tag => {
       const quesLength = data.questions.filter(t => t.tagIds.includes(tag.tid)).length;

@@ -3,9 +3,10 @@ import { loginThunk } from '../../thunks/login-thunks';
 import './index.css';
 import { useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useCookies } from "react-cookie";
 
 const Login = () => {
-
+    const { user } = useAuthContext();
     const navigate = useNavigate();
     const { dispatch } = useAuthContext();
 
@@ -24,7 +25,8 @@ const Login = () => {
         e.preventDefault();
         loginThunk(dispatch, input).then((data) => {
             if(data.success) {
-                navigate("/home");
+              console.log(data);
+              navigate("/home");
             } else {
                 console.log(data.error);
                 setErrors(data.error);

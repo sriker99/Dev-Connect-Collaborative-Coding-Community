@@ -31,8 +31,9 @@ export const updateQuestionVotes = async (qid, isIncrement) => {
     return question;
 }
 
-export const paginatedQuestions =  async (page, limit) => {
-    const response = await axios.get(`${API_URL}/paginatedQuestions?page=${page}&limit=${limit}`);
+export const paginatedQuestions =  async (page, limit, currentQuestions) => {
+    console.log("IN PAGINATE", currentQuestions);
+    const response = await axios.post(`${API_URL}/paginatedQuestions?page=${page}&limit=${limit}`, currentQuestions);
     const questions = response.data;
     return questions;
 }

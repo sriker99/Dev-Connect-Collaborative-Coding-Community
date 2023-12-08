@@ -1,5 +1,8 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import authReducer from '../reducers/auth-reducer.js';
+import { CookiesProvider, useCookies } from "react-cookie";
 
 const AuthContext = createContext();
 
@@ -8,14 +11,7 @@ const AuthContextProvider = ({children}) => {
         loggedIn: false,
         user: null
     })
-
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        if(user) {
-            dispatch({type: 'LOGIN', payload: user});
-        }
-    }, [])
+    
 
     return  (
         <AuthContext.Provider value={{...state, dispatch}}>

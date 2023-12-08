@@ -1,8 +1,25 @@
 const jwt = require('jsonwebtoken');
+const { findUserById } = require('../DAO/usersDAO');
 
 const createToken = (_id) => {
     const SECRET = "7DJGickhf"
-    return jwt.sign({_id}, SECRET);
+    return jwt.sign({_id}, SECRET, {expiresIn: 60 * 60 * 24});
 }
 
-module.exports = { createToken };
+const authenticate = async (req, res, next) => {
+    try {
+      const token = req.cookies.token;
+      if (!token) {
+        return res.json({ status: false })
+      }
+      const decode = jwt.verify(token, "7DJGickhf");
+      const user = await findUserById(decode._id);
+      console.log("IN AUTHENTICATE", user);
+      res.json({success: true, data: user});
+    } catch (err) {
+    res.clearCookie("token");
+    res.json({ success: false, message: "Authentication Failed" });
+    }
+  };
+
+module.exports = { createToken, authenticate };

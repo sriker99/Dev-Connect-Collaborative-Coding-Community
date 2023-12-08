@@ -12,13 +12,47 @@ import { useEffect, useState } from "react";
 import { findQuestionThunk } from "../../thunks/question-thunks";
 import { findTagThunk } from "../../thunks/tag-thunks";
 import { findAnswerThunk } from "../../thunks/answer-thunks";
-import authReducer from "../../reducers/auth-reducer.js";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useCookies } from 'react-cookie';
+import { useAuthContext } from "../../hooks/useAuthContext.js";
 
 const store = configureStore({
   reducer : { data : dataReducer, nav : navReducer},
 });
  
 function FakeStackOverFlow() {
+  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
+    const [cookies, removeCookie] = useCookies([]);
+    const [user, setUser] = useState("");
+    useEffect(() => {
+        const verifyCookie = async () => {
+            try {
+              const { data } = await axios.post(
+                "http://localhost:8000",
+                {},
+                { withCredentials: true }
+              );
+              const { success, user } = data;
+              console.log("AUTH CONTEXT", data);
+    
+              if (success) {
+                // If authentication is successful, set the user in state
+                setUser(user);
+                dispatch({ type: 'LOGIN', payload: user });
+              } else {
+                // If authentication fails, remove the token and navigate to login
+                removeCookie("token");
+              }
+            } catch (error) {
+              console.error("Error while verifying cookie:", error);
+            }
+        };
+    
+        // Call the verifyCookie function
+        verifyCookie();
+      }, [cookies, navigate, removeCookie]);
   return (
     <Provider store={store}>
       <AppContent />

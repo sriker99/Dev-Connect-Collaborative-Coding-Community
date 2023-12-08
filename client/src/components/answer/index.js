@@ -8,6 +8,7 @@ import { findQuestionByIdThunk, updateQuestionThunk, updateQuestionVoteThunk } f
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { checkAcceptAnswer, paginateAcceptedAnswers, paginatedAnswers } from '../../services/answer-service';
 import { updateQuestion } from '../../reducers/data-reducer';
+import { updateNavState } from "../../reducers/nav-reducer";
 
 const AnswerPage = ({question}) => {
     const { loggedIn, user} = useAuthContext();
@@ -160,6 +161,18 @@ const AnswerPage = ({question}) => {
     //     })
     //     }
     // };
+    const tagButtons = question.tagIds.map((tid) => {
+        const tag = data.tags.find((t) => t.tid === tid);
+        const tagPayload = {
+          pageStatus: 'specificTagPage',
+          tagId: tid
+        };
+        return (
+          (tag && <button key={`tag-${tag.tid}`} onClick={() => dispatch(updateNavState(tagPayload))}>
+            {tag.name} 
+          </button>)
+        );
+      });
     const handleQuestionUpvote = () => {
         dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: true}));
     }
@@ -197,6 +210,9 @@ const AnswerPage = ({question}) => {
                         <div>{question.votes}</div>
                     </div>
                 }
+            </div>
+            <div className="home-tag-buttons">
+                {tagButtons}
             </div>
         </div>
         <div id="answerDetail">

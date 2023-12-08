@@ -1,12 +1,13 @@
 var {createQuestions, findAllQuestions, updateQuestionView, upvoteQuestion, downvoteQuestion} = require('../../DAO/questionsDAO.js');
 var {tagsServerToClient} = require("../tags/tag-controller.js");
+var { authenticate } = require("../../middleware/authenticate.js")
 
 const QuestionController = (app) => {
     app.get('/api/questions', findQuestion);
     app.post('/api/questions', createQuestion);
     app.put('/api/questions/:qid', updateQuestionViews);
     app.put('/api/questions/:qid/votes', updateQuestionVotes);
-    app.get('/api/questions/paginatedQuestions', paginateQuestions);
+    app.post('/api/questions/paginatedQuestions', paginateQuestions);
  }
  
 const createQuestion = async (req, res) => {
@@ -48,29 +49,16 @@ const findQuestion = async (req, res) => {
 }
 
 const paginateQuestions = async (req, res) => {
-    console.log("In paginate Questions");
+    const questions = req.body;
+    // console.log("CLIENT SENT QUESTIONS", questions);
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 5;
     const size = (page - 1) * limit;
-    const allQuestions = await findAllQuestions();
+    questions.sort((a,b) => new Date(b.ask_date_time) - new Date(a.ask_date_time));
 
-    allQuestions.sort((a,b) => new Date(b.ask_date_time) - new Date(a.ask_date_time));
-
-    const response = allQuestions.slice(size, size + limit);
-    let questionsPerPage = [];
-
-    response.forEach(question => {
-        let tagIDs = [];
-        let ansIds = [];
-        
-        question.tags.forEach(t => tagIDs.push(t._id));
-        question.tags = tagIDs;
-        question.answers.forEach(a => ansIds.push(a._id));
-        question.answers = ansIds;
-        questionsPerPage.push(questionServerToClient(question));
-    })
+    const response = questions.slice(size, size + limit);
     res.send({
-        questionsPerPage: questionsPerPage,
+        questionsPerPage: response
     })
 }
 

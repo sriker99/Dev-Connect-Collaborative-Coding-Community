@@ -8,15 +8,24 @@ const { UserController } = require('./controllers/users/user-controller.js');
 const express = require('express');
 const app = express();
 var cors = require('cors');
+const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 
 let mongoose = require('mongoose');
+const { authenticate } = require('./middleware/authenticate.js');
 let mongoDB = "mongodb://127.0.0.1:27017/fake_so";
  
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
  
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -27,6 +36,8 @@ AnswerController(app);
 QuestionController(app);
 TagController(app);
  
+app.use("/", authenticate);
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000");
 });

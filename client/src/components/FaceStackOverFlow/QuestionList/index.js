@@ -33,12 +33,12 @@ const QuestionsList = ({questions, tags}) => {
     const totalPages = Math.ceil(questions.length / questionsPerPage);
 
     useEffect(() => {
-      paginatedQuestions(currentPage, questionsPerPage).then((data) => {  
+      paginatedQuestions(currentPage, questionsPerPage, questions).then((data) => {  
         setCurrentSetOfQuestions(data.questionsPerPage);
       }).catch((error) => {
         console.error("Error fetching paginated questions:", error);
       });
-    },[currentPage]);
+    },[currentPage, questions]);
    
     const handlePrevPage = () => {
       setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));

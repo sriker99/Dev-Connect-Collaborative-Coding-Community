@@ -1,9 +1,9 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginThunk } from '../../thunks/login-thunks';
 import './index.css';
 import { useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useCookies } from "react-cookie";
 
 const Login = () => {
     const { user } = useAuthContext();

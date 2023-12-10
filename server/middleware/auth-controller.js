@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 
 //signup static method
-const signup = async (username, email, password, cpassword) => {
+const signup = async (username, email, password, cpassword, reputation) => {
 
     let errors = {};
 
@@ -46,7 +46,7 @@ const signup = async (username, email, password, cpassword) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await createUser({username: username, email: email, password: hash, date: new Date()});
+    const user = await createUser({username: username, email: email, password: hash, joined_date: new Date(), reputation: reputation});
 
     return user;
 

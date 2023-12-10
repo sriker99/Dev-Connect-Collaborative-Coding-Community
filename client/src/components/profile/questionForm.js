@@ -1,9 +1,6 @@
 import React, { useState } from 'react'; 
 import './questionForm.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNavState } from '../../reducers/nav-reducer.js';
-import HomePage from '../FaceStackOverFlow/homepage/index.js';
-import { createQuestionThunk } from '../../thunks/question-thunks';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
 import { deleteQuestion, editQuestion } from '../../services/question-service.js';
 import { findQuestionThunk } from "../../thunks/question-thunks";
@@ -183,26 +180,5 @@ const validateParameters = (input) => {
     return errors;
 }
 
-
-// const createQuestion = (input, username) => {
-
-//     console.log("creatinggg question",username);
-//     const pattern = /\[([^\]]*)\]\(([^)]*)\)/g;
-//     const formattedText = input.text.replace(pattern, (match, sourceName, link) => {
-//       return `<a href="${link}" target="_blank">${sourceName}</a>`
-//     });
-
-//     const listInputTags = input.tags.split(' ');
-//     return {
-//         title: input.title.trim(),
-//         text: formattedText.trim(),
-//         tagIds: listInputTags,
-//         askedBy: username.trim(),
-//         askDate: new Date().toString(),
-//         ansIds: [],
-//         views: 0,
-//       };
-
-// }
 
 export default QuestionForm;

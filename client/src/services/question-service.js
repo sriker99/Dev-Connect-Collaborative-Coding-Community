@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8000/api/questions';
 
+
 export const createQuestion = async (question) => {
     const response = await axios.post(API_URL, question);
     return response.data;
@@ -25,10 +26,10 @@ export const updateQuestion = async (qid) => {
     return question;
 }
 
-export const updateQuestionVotes = async (qid, isIncrement) => {
-    const response = await axios.put(`${API_URL}/${qid}/votes?isIncrement=${isIncrement}`);
-    const question = response.data;
-    return question;
+export const updateQuestionVotes = async (qid, isIncrement, user) => {
+    const response = await axios.put(`${API_URL}/${qid}/votes?isIncrement=${isIncrement}&user=${user}`);
+    const data = response.data;
+    return data;
 }
 
 export const paginatedQuestions =  async (page, limit, currentQuestions) => {

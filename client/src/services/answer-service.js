@@ -43,3 +43,14 @@ export const checkAcceptAnswer = async(qid) => {
     const accept = response.data;
     return accept;
 }
+
+export const deleteAnswer = async(aid) => {
+    const response = await axios.delete(`${API_URL}/${aid}`);
+    return response.data;
+}
+
+export const editAnswer = async(aid, body) => {
+    console.log("in ans service", body);
+    const response = await axios.put(`${API_URL}/updateAnswerText/${aid}`, body);
+    return response.data;
+}

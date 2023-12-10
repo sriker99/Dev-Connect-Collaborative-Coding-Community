@@ -1,4 +1,4 @@
-var {createQuestions, findAllQuestions, updateQuestionView, upvoteQuestion, downvoteQuestion} = require('../../DAO/questionsDAO.js');
+var {createQuestions, findAllQuestions, updateQuestionView, upvoteQuestion, downvoteQuestion, deleteDataByQid, updateQuestion} = require('../../DAO/questionsDAO.js');
 var {tagsServerToClient} = require("../tags/tag-controller.js");
 var { authenticate } = require("../../middleware/authenticate.js")
 
@@ -8,8 +8,25 @@ const QuestionController = (app) => {
     app.put('/api/questions/:qid', updateQuestionViews);
     app.put('/api/questions/:qid/votes', updateQuestionVotes);
     app.post('/api/questions/paginatedQuestions', paginateQuestions);
+    app.delete('/api/questions/:qid', deleteQuestion)
+    app.put('/api/questions/updateQuestion/:qid', updateQues);
  }
- 
+
+const updateQues = async(req, res) => {
+    const { qid } = req.params;
+    const updatedQuestion = req.body;
+    console.log(req.body);
+    await updateQuestion(qid, updatedQuestion.title, updatedQuestion.text, updatedQuestion.tags);
+    res.send("sucessfully updated fields ");
+
+}
+
+const deleteQuestion = async(req, res) => {
+    const { qid } = req.params;
+    await deleteDataByQid(qid);
+    res.send("sucessfully deleted all fields ");
+
+}
 const createQuestion = async (req, res) => {
     const newQuestion = req.body;
     const modifiedQuestion = questionClientToServer(newQuestion);

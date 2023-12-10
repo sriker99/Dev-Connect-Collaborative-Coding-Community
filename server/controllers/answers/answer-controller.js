@@ -1,4 +1,4 @@
-var { findAllAnswers, createAnswersAndUpdateQuestion, upvoteAnswer, downvoteAnswer, acceptAnswer, removeAnswerAcceptance } = require('../../DAO/answersDAO.js');
+var { findAllAnswers, createAnswersAndUpdateQuestion, upvoteAnswer, downvoteAnswer, acceptAnswer, removeAnswerAcceptance, deleteAnswerById, updateAnswerText} = require('../../DAO/answersDAO.js');
 const { findQuestionByID } = require('../../DAO/questionsDAO.js');
 var { questionServerToClient } = require('../questions/question-controller.js');
 let answersModel = require('../../models/answers.js');
@@ -11,8 +11,25 @@ const AnswerController = (app) => {
     app.put('/api/answers/:aid/votes', updateAnswerVotes);
     app.put('/api/answers/:aid', updateAcceptedAnswer);
     app.get('/api/checkanswers/:qid', checkAnswerAcceptance);
+    app.delete('/api/answers/:aid', deleteAnswer);
+    app.put('/api/answers/updateAnswerText/:aid', updateAnswer);
  }
  
+
+const updateAnswer = async(req, res) => {
+    const { aid } = req.params;
+    const updatedAnswer = req.body;
+    console.log("in update answer", updatedAnswer);
+    await updateAnswerText(aid, updatedAnswer.text);
+    res.send("Answer text updated successfully");
+}
+
+
+const deleteAnswer = async (req, res) => {
+    const { aid } = req.params;
+    await deleteAnswerById(aid);
+    res.send("Answer deleted successfully");
+}
 const createAnswer = async (req, res) => {
     const answer = req.body;
     const {qid} = req.params;

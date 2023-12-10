@@ -38,3 +38,14 @@ export const paginatedQuestions =  async (page, limit, currentQuestions) => {
     return questions;
 }
 
+export const deleteQuestion = async(qid) =>  {
+    console.log("I'm here in delete servicee");
+    const response = await axios.delete(`${API_URL}/${qid}`);
+    return response.data;
+}
+
+export const editQuestion = async(qid, body) =>  {
+    console.log("I'm here in edit servicee");
+    const response = await axios.put(`${API_URL}/updateQuestion/${qid}`, body);
+    return response.data;
+}

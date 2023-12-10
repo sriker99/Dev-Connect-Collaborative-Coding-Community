@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import dataReducer from "../../reducers/data-reducer.js"
@@ -17,9 +17,11 @@ import axios from "axios";
 import { useCookies } from 'react-cookie';
 import { useAuthContext } from "../../hooks/useAuthContext.js";
 import commentsReducer from "../../reducers/comments-reducer.js"; 
+import UserProfile from '../profile/index.js';
+import profileNavReducer from '../../reducers/profile-nav-reducer.js';
 
 const store = configureStore({
-  reducer : { data : dataReducer, nav : navReducer, comments: commentsReducer},
+  reducer : { data : dataReducer, nav : navReducer, comments: commentsReducer, profileNavReducer: profileNavReducer},
 });
 
 axios.defaults.withCredentials = true;
@@ -65,6 +67,9 @@ function FakeStackOverFlow() {
   );
 }
 
+
+
+
 function AppContent(){
   const navState = useSelector(state => state.nav);
   const [questionButton, setQuestionButton] = useState(false);
@@ -76,13 +81,16 @@ function AppContent(){
   }, [dispatch])
   return(
     <div>
-        <Header />
+      <Header />
+      {navState.profile && <UserProfile/>}
+      {(navState.questions || navState.tags) &&(
         <div id="home-container">
           <Navbar questionButton = {questionButton} setQuestionButton = {setQuestionButton}/>
           {navState.questions && <HomePage questionButton = {questionButton}/>}
           {navState.tags && <AllTagsComponent/>}
         </div>
-      </div>
+      )}
+    </div>
   );
 }
 

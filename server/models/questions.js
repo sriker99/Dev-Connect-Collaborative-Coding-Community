@@ -11,6 +11,7 @@ const schema = mongoose.Schema({
     views : {type : Number, required : true, default : 0},
     votes : {type : Number, default : 0},
     comments : [{type : mongoose.Schema.Types.ObjectId, ref : "comments", default: []}]
+    //active_order: {type : String, required : true}
 });
 
 module.exports = mongoose.model("questions", schema);

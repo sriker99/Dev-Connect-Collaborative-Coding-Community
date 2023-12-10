@@ -4,6 +4,10 @@ import './index.css'
 import { useEffect, useState } from 'react';
 import { fetchComments } from "../../../thunks/comments-thunks";
 import { paginatedQuestions } from "../../../services/question-service";
+import React from 'react';
+import { useAuthContext } from '../../../hooks/useAuthContext.js';
+import QuestionForm from "../../profile/questionForm";
+import { updateProfileNavState } from "../../../reducers/profile-nav-reducer";
 
 const formatQuestionMetadata = (username, postDate) => {
     const currentDate = new Date();
@@ -28,11 +32,11 @@ const formatQuestionMetadata = (username, postDate) => {
 }
 
 const QuestionsList = ({questions, tags}) => {
+    const profile = useSelector(state => state.nav.profile);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentSetOfQuestions, setCurrentSetOfQuestions] = useState(questions);
     const questionsPerPage = 5;
     const totalPages = Math.ceil(questions.length / questionsPerPage);
-
     useEffect(() => {
       paginatedQuestions(currentPage, questionsPerPage, questions).then((data) => {  
         setCurrentSetOfQuestions(data.questionsPerPage);
@@ -51,6 +55,7 @@ const QuestionsList = ({questions, tags}) => {
 
     const dispatch = useDispatch();
     const searchPage = useSelector(state => state.nav.searchPage);
+
     if(searchPage && questions.length === 0){
       return(
         <div>
@@ -63,13 +68,21 @@ const QuestionsList = ({questions, tags}) => {
         <div>
           {currentSetOfQuestions.map((question) => {
             const handleQuestionClick = () => {
-                const dispatchPayload = {
-                  pageStatus: 'answerPage',
-                  questionObj: question,
-                };
-      
-                dispatch(updateNavState(dispatchPayload));
-                dispatch(fetchComments(question.qid));
+              console.log("in handle question click");
+                if(profile){
+                  dispatch(updateProfileNavState({pageStatus: 'updateQuestionForm',
+                                                   questionObj: question}));
+                  // return(<h1>question Form</h1>)
+                }
+                else{
+                  const dispatchPayload = {
+                    pageStatus: 'answerPage',
+                    questionObj: question,
+                  };
+        
+                  dispatch(updateNavState(dispatchPayload));
+                  dispatch(fetchComments(question.qid));
+                } 
               };
             const tagButtons = question.tagIds.map((tid) => {
               const tag = tags.find((t) => t.tid === tid);

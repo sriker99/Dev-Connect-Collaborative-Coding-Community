@@ -1,12 +1,20 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, Link } from "react";
+import { useState } from "react";
 import './index.css'
 import { updateNavState } from '../../../reducers/nav-reducer';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { logoutThunk } from '../../../thunks/login-thunks';
 import { useNavigate } from 'react-router-dom';
+import { updateProfileNavState } from '../../../reducers/profile-nav-reducer';
 const Header = () => {
     // const loginInfo = useSelector(state => state.auth);
+    const profilePageStatus = {
+      pageStatus: 'profile'
+    }
+    const homePageStatus = {
+      pageStatus: 'questions'
+    } 
     const { loggedIn, dispatch: authDispatch } = useAuthContext();
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
@@ -29,10 +37,22 @@ const Header = () => {
       navigate("/");
 
     };
+
+    const handleProfile = () => {
+      dispatch(updateNavState(profilePageStatus));
+    }
+
+    const handleHomePage = () => {
+      dispatch(updateProfileNavState({pageStatus: 'user'}));
+      dispatch(updateNavState(homePageStatus));
+    }
+
     return (
         <div id="header" className="header">
             <div>
               {loggedIn ? <button onClick={handleLogout}>Logout</button>: null}
+              {loggedIn ? <button onClick={handleProfile}>Profile</button>: null}
+              {loggedIn ? <button onClick={handleHomePage}>HomePage</button>: null}
             </div>
             <h1 id="bannerTitle">Fake Stack Overflow</h1>
             <input id="searchBar" 

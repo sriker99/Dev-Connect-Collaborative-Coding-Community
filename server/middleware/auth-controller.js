@@ -46,7 +46,7 @@ const signup = async (username, email, password, cpassword) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await createUser({username: username, email: email, password: hash});
+    const user = await createUser({username: username, email: email, password: hash, date: new Date()});
 
     return user;
 

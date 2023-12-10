@@ -1,0 +1,30 @@
+#sideBarNav{
+    border-right: 2px dotted;
+    height: auto;
+ }
+
+ #profile-user-bar{
+   text-align: center;
+   color: blue;
+   font-size: large;
+   background-color: lightgray;
+   margin-top: 15%;
+}
+ #profile-questions-bar{
+    text-align: center;
+    color: blue;
+    font-size: large;
+    margin-top: 15%;
+ }
+ #profile-answers-bar{
+   text-align: center;
+   color: blue;
+   font-size: large;
+   margin-top: 15%;
+}
+ #profile-tags-bar{
+    text-align: center;
+    color: blue;
+    font-size: large;
+    margin-top: 15%;
+ }

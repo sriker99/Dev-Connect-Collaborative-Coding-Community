@@ -31,8 +31,9 @@ export const updateQuestionThunk = createAsyncThunk(
 
 export const updateQuestionVoteThunk = createAsyncThunk(
   'questions/updateQuestionVote',
-  async ({qid, isIncrement}) => {
-    console.log("THUNK INC", isIncrement)
-   const question = await service.updateQuestionVotes(qid, isIncrement);
-   return question;
+  async ({qid, isIncrement, user, dispatch}) => {
+   const data = await service.updateQuestionVotes(qid, isIncrement, user);
+   console.log("IN QUESTION THUNK", data);
+   dispatch({ type: 'LOGIN', payload: data.user });
+   return data.question;
 })

@@ -30,7 +30,7 @@ function FakeStackOverFlow() {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies([]);
-    const [user, setUser] = useState("");
+    // const [user, setUser] = useState("");
     useEffect(() => {
         const verifyCookie = async () => {
             try {
@@ -45,7 +45,7 @@ function FakeStackOverFlow() {
               console.log("COOKIE", cookies);
               if (success) {
                 // If authentication is successful, set the user in state
-                setUser(user);
+                // setUser(user);
                 // console.log()
                 dispatch({ type: 'LOGIN', payload: user });
               } else {

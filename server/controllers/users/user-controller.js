@@ -29,10 +29,10 @@ const loginUser = async (req, res) => {
 
 //signup user
 const signupUser = async (req, res) => {
-    const {username, email, password, cpassword} = req.body;
+    const {username, email, password, cpassword, reputation} = req.body;
 
     try {
-        const user = await signup(username, email, password, cpassword);
+        const user = await signup(username, email, password, cpassword, reputation);
         const token = createToken(user._id);
         res.cookie("token", token, {
             withCredentials: true,

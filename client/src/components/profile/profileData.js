@@ -21,7 +21,7 @@ const profileData = () => {
                 <h3>Reputation: 0</h3>
             </div>
             <div id = "userJoinedData">
-                <h3>User Joined: {calculateNumOfDays(user.date)} days </h3>
+                <h3>User Joined: {calculateNumOfDays(user.joined_date)} days </h3>
             </div>
         </div>
     )

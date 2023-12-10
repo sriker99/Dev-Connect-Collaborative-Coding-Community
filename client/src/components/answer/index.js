@@ -20,7 +20,7 @@ const AnswerPage = ({question}) => {
         QUESTION : "question",
         ANSWER : "answer"
     }
-    const { loggedIn, user} = useAuthContext();
+    const { loggedIn, user, dispatch: authDispatch} = useAuthContext();
     const data = useSelector(state => state.data); 
     const comments = useSelector(state => state.comments);
     const questionComments = comments.question;
@@ -36,7 +36,8 @@ const AnswerPage = ({question}) => {
     const [currentAcceptedPage, setCurrentAcceptedPage] = useState(1);
     const [currentSetOfAnswers, setCurrentSetOfAnswers] = useState([]);
     const answersPerPage = 5;
-    const totalPages = Math.ceil(question.ansIds.length / answersPerPage);
+    const [totalPages, setTotalPages] = useState(Math.ceil(question.ansIds.length / answersPerPage));
+   
     const [accept, setAccept] = useState(false);
     const [ansid, setAnsid] = useState('');
 
@@ -74,8 +75,8 @@ const AnswerPage = ({question}) => {
             incrementViews(question.qid);
             hasMounted.current = true;
         }
-        console.log("re rendering answers");
-    }, [question.qid, data.answers, incrementViews]);
+       console.log("user", user.reputation);
+    }, [question.qid, data.answers, incrementViews, user]);
       
 
     const handlePrevPage = useCallback(() => {
@@ -98,13 +99,17 @@ const AnswerPage = ({question}) => {
             paginateAcceptedAnswers(ansid, question.qid, Math.min(currentAcceptedPage + 1, totalPages), answersPerPage).then((data) => {
                 setCurrentSetOfAnswers(data);
             })} else {
-                paginatedAnswers(question.qid, Math.min(currentPage + 1, totalPages), answersPerPage).then((data) => {
+                paginatedAnswers(question.qid, (currentPage === totalPages) ? 1 : Math.min(currentPage + 1, totalPages), answersPerPage).then((data) => {
                 setCurrentSetOfAnswers(data.answersPerPage);
             })
         }
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-        setCurrentAcceptedPage((prevAcceptedPage) =>  Math.min(prevAcceptedPage + 1, totalPages));
-    },[currentPage, currentAcceptedPage, ansid])
+        setCurrentPage((prevPage) => {
+            return prevPage === totalPages ? 1 : Math.min(prevPage + 1, totalPages);
+        });
+        setCurrentAcceptedPage((prevAcceptedPage) =>  {
+            return prevAcceptedPage === totalPages ? 1 : Math.min(prevAcceptedPage + 1, totalPages);
+        });
+    },[currentPage, currentAcceptedPage, ansid, data.answers])
 
   
     const handleChange = (e) => {
@@ -124,7 +129,9 @@ const AnswerPage = ({question}) => {
         console.log(errors);
         if(Object.keys(errors).length === 0) {
             const newAnswer = createAnswer(input, data, user);
+            setTotalPages(Math.ceil(((question.ansIds.length) + 1) / answersPerPage));
             dispatch(createAnswerThunk({answer: newAnswer, qid: question.qid}));
+            // setTotalPages()
             clearForm();
             setPage('questionInfo');
             
@@ -200,17 +207,45 @@ const AnswerPage = ({question}) => {
         );
       });
     const handleQuestionUpvote = () => {
-        dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: true}));
-    }
+        if(user.reputation >= 50) {
+            dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: true, user: user.username, dispatch: authDispatch}));
+            // console.log("USER REPUTATION AFTER", user.reputation);
+        } else {
+            setErrors(prevErrors => {
+                return { ...prevErrors, votes: "User cannot vote with reputation < 50" };
+            });
+        }
+    };
+
     const handleQuestionDownvote = () => {
-        dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: false}));
+        if(user.reputation >= 50) {
+            console.log("IN DOWNVOTE", user.username);
+            dispatch(updateQuestionVoteThunk({qid: question.qid, isIncrement: false, user: user.username, dispatch: authDispatch}));
+        } else {
+            setErrors(prevErrors => {
+                return { ...prevErrors, votes: "User cannot vote with reputation < 50" };
+            });
+        }
     }
 
     const handleAnswerUpvote = (aid) => {
-        dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: true}));
+        if(user.reputation >= 50) {
+            dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: true, user: user.username, dispatch: authDispatch}));
+        } else {
+            setErrors(prevErrors => {
+                return { ...prevErrors, votes: "User cannot vote with reputation < 50" };
+            });
+        }
+      
     }
     const handleAnswerDownvote = (aid) => {
-        dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: false}));
+        if(user.reputation >= 50) {
+            dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: false, user: user.username, dispatch: authDispatch}));
+        } else {
+            setErrors(prevErrors => {
+                return { ...prevErrors, votes: "User cannot vote with reputation < 50" };
+            });
+        }
     }
     const questionAnswerInfo = 
     <div id="answerContainer"> 
@@ -239,6 +274,8 @@ const AnswerPage = ({question}) => {
                         <button className='arrow-up' onClick={handleQuestionUpvote}></button>
                         <button className='arrow-down' onClick={handleQuestionDownvote}></button>
                         <div>{question.votes} votes</div>
+                        <br/>
+                        {errors.votes && <p style={{color: "red"}}>{errors.votes}</p>}
                     </div>
                 ) : <h5>{question.votes} votes</h5>
                 } 
@@ -266,6 +303,8 @@ const AnswerPage = ({question}) => {
                                 <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
                                 <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
                                 <div>{answer.votes} votes</div>
+                                <br/>
+                                {errors.votes && <p style={{color: "red"}}>{errors.votes}</p>}
                         </div>
                         <div>
                             <button id="pin-answer" onClick={() => handleAcceptedAnswer(answer.aid)}>Accept</button>
@@ -288,7 +327,7 @@ const AnswerPage = ({question}) => {
                   Previous
                 </button>
                 <span>{`Page ${currentPage} of ${totalPages}`}</span>
-                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                <button onClick={handleNextPage}>
                     Next
                 </button>
             </div>
@@ -303,14 +342,6 @@ const AnswerPage = ({question}) => {
     const answerForm = 
     <div>
         <form id="answerForm" onSubmit={handleSubmit}>
-            {/* <label id="usernameLabel" htmlFor="username">Username*</label><br/><br/>
-            <input type="text" 
-                id="answerUsernameInput" 
-                name="username"
-                placeholder="Enter username"
-                value= {user.username}
-                onChange={handleChange} />
-            <br /><br /> */}
             <label id="answerLabel" htmlFor="answer">Answer Text*</label><br/><br/>
             <input type="text" 
                 id="answerTextInput"

@@ -1,6 +1,7 @@
 var {createQuestions, findAllQuestions, updateQuestionView, upvoteQuestion, downvoteQuestion, deleteDataByQid, updateQuestion} = require('../../DAO/questionsDAO.js');
 var {tagsServerToClient} = require("../tags/tag-controller.js");
-var { authenticate } = require("../../middleware/authenticate.js")
+var { authenticate } = require("../../middleware/authenticate.js");
+const { findUserName } = require('../../DAO/usersDAO.js');
 
 const QuestionController = (app) => {
     app.get('/api/questions', findQuestion);
@@ -89,17 +90,27 @@ const updateQuestionViews = async (req, res) => {
 const updateQuestionVotes = async (req, res) => {
     console.log("called update votes method");
     const { qid } = req.params;
+    const user = req.query.user;
     const isIncrement = req.query.isIncrement === 'true';
     let response;
+    const currentUser = await findUserName(user);
+    let updatedUser;
     if(isIncrement) {
         response = await upvoteQuestion(qid);
-    
+        currentUser.reputation = currentUser.reputation + 5;
+        updatedUser = await currentUser.save();
+        console.log("Updated USER", updatedUser);
     } else {
         console.log("in else statement");
         response = await downvoteQuestion(qid);
+        currentUser.reputation = currentUser.reputation - 10;
+        updatedUser = await currentUser.save();
+        console.log("Updated USER", updatedUser);
     }
+  
+
     const question = questionServerToClient(response);
-    res.send(question);
+    res.send({question: question, user: updatedUser});
   
 }
 

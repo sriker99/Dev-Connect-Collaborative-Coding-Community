@@ -1,7 +1,7 @@
 var { findAllAnswers, createAnswersAndUpdateQuestion, upvoteAnswer, downvoteAnswer, acceptAnswer, removeAnswerAcceptance, deleteAnswerById, updateAnswerText} = require('../../DAO/answersDAO.js');
 const { findQuestionByID } = require('../../DAO/questionsDAO.js');
 var { questionServerToClient } = require('../questions/question-controller.js');
-let answersModel = require('../../models/answers.js');
+const { findUserName } = require('../../DAO/usersDAO.js');
  
 const AnswerController = (app) => {
     app.get('/api/answers', findAnswer);
@@ -118,17 +118,26 @@ const acceptAnswerForQuestion = async (req, res) => {
 
 const updateAnswerVotes = async (req, res) => {
     const { aid } = req.params;
+    const user = req.query.user;
+    console.log("USERRR", user);
     const isIncrement = req.query.isIncrement === 'true';
-    console.log("ANSWER", isIncrement);
+    const currentUser = await findUserName(user);
+    let updatedUser;
     let response;
     if(isIncrement) {
         response = await upvoteAnswer(aid);
+        currentUser.reputation = currentUser.reputation + 5;
+        updatedUser = await currentUser.save();
+        console.log("Updated USER", updatedUser);
     } else {
         console.log("In else loop");
         response = await downvoteAnswer(aid);
+        currentUser.reputation = currentUser.reputation - 10;
+        updatedUser = await currentUser.save();
+        console.log("Updated USER", updatedUser);
     }
     const answer = answerServerToClient(response);
-    res.send(answer);
+    res.send({answer: answer, user: updatedUser});
 }
 
 const updateAcceptedAnswer = async (req, res) => {

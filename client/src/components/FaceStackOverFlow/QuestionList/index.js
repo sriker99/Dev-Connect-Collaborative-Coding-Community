@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react';
 import { fetchComments } from "../../../thunks/comments-thunks";
 import { paginatedQuestions } from "../../../services/question-service";
 import React from 'react';
-import { useAuthContext } from '../../../hooks/useAuthContext.js';
-import QuestionForm from "../../profile/questionForm";
 import { updateProfileNavState } from "../../../reducers/profile-nav-reducer";
 
 const formatQuestionMetadata = (username, postDate) => {

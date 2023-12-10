@@ -15,8 +15,13 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        type: String,
+    joined_date: {
+        type: Date,
+        required: true
+    },
+    reputation: {
+        type: Number,
+        default: 0,
         required: true
     }
 })

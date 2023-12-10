@@ -1,9 +1,9 @@
 /* Comments Section Container */
 .comments-container {
     margin-left: 10px;
-    padding: 20px;
+    padding: 10px;
     font-family: Arial, sans-serif;
-    border-top: 2px dotted #add8e6; /* Light blue dotted border */
+    /* border-top: 2px dotted #add8e6;  */
     border-bottom: 2px dotted #add8e6;
     display: grid;
     gap: 20px;

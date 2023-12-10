@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import QuestionForm from '../question';
 import { formatQuestionMetadata } from '../FaceStackOverFlow/QuestionList';
@@ -45,6 +45,13 @@ const AnswerPage = ({question}) => {
 
     console.log("IN ANSWER PAGE", user);
 
+    const incrementViews = useCallback(
+        (qid) => dispatch(updateQuestionThunk(qid)),
+        [dispatch]
+      );
+
+    const hasMounted = useRef(false);
+
     useEffect(() => { 
         console.log("IN USEEFFECT");
         checkAcceptAnswer(question.qid).then((data) => {
@@ -63,9 +70,13 @@ const AnswerPage = ({question}) => {
             }
         })
         dispatch(findQuestionByIdThunk(question.qid));
-        dispatch(updateQuestionThunk(question.qid));
+        if (!hasMounted.current) {
+            incrementViews(question.qid);
+            hasMounted.current = true;
+        }
         console.log("re rendering answers");
-    }, [dispatch, question.qid]);
+    }, [question.qid, data.answers, incrementViews]);
+      
 
     const handlePrevPage = useCallback(() => {
        
@@ -218,18 +229,23 @@ const AnswerPage = ({question}) => {
                     <div id="multiline">
                         {askedBy}<br />asked {askDate}
                     </div>
-                    <br/>
-                    <div id="arrowContainer">
-                        <button className='arrow-up' onClick={handleQuestionUpvote}></button>
-                        <button className='arrow-down' onClick={handleQuestionDownvote}></button>
-                        <div>{question.votes}</div>
-                    </div>
                 </div>
                 <div className="home-tag-buttons">
                     {tagButtons}
                 </div>
+                <br/>
+                {loggedIn ? (
+                    <div id="arrowContainer">
+                        <button className='arrow-up' onClick={handleQuestionUpvote}></button>
+                        <button className='arrow-down' onClick={handleQuestionDownvote}></button>
+                        <div>{question.votes} votes</div>
+                    </div>
+                ) : <h5>{question.votes} votes</h5>
+                } 
             </div>
-            <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/> 
+            <div id="comments-section">
+                <CommentsSection qid={question.qid} aid={null} type={commentType.QUESTION} stateComments={questionComments}/> 
+            </div>
         </div>
         <div id="answerDetail">
             {currentSetOfAnswers.map(answer => {
@@ -246,18 +262,22 @@ const AnswerPage = ({question}) => {
                         <div className="answerAuthor">{ansBy}<br />answered {ansDate}</div>
                         {loggedIn && 
                     <div>
-                        <div id="arrowContainer">
+                    <div id="arrowContainer">
                                 <button className='arrow-up' onClick={() => handleAnswerUpvote(answer.aid)}></button>
                                 <button className='arrow-down' onClick={() => handleAnswerDownvote(answer.aid)}></button>
-                                <div>{answer.votes}</div>
-                            </div>
-                            <div>
+                                <div>{answer.votes} votes</div>
+                        </div>
+                        <div>
                             <button id="pin-answer" onClick={() => handleAcceptedAnswer(answer.aid)}>Accept</button>
                          </div>
                     </div>
                     }
+                    {!loggedIn &&  <h5>{answer.votes} votes</h5>}
                 </div>
+                <div id="comments-section">
                     <CommentsSection qid={question.qid} aid={answer.aid} type={commentType.ANSWER} stateComments={answerComments[answer.aid]}/>
+                </div>
+                    
                 </div>
                 
             );

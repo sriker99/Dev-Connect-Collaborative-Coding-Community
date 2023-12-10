@@ -18,9 +18,15 @@ const SignUp = () => {
         setInput(prevInput => ({...prevInput, [e.target.name]: e.target.value}))
     };
 
+
     const handleSignUp = (e) => {
         e.preventDefault();
-        signupThunk(input).then((data) => {
+        const trimmedInput = Object.fromEntries(
+          Object.entries(input).map(([key, value]) => [key, value.trim()])
+        );
+    
+        setInput(trimmedInput);
+        signupThunk(trimmedInput).then((data) => {
             if(data.success) {
                 console.log(data);
                 navigate("/login");
@@ -30,7 +36,6 @@ const SignUp = () => {
             }
         });
     }
-
     return (
         <div className="Auth-form-container">
         <form className="Auth-form">
@@ -55,46 +60,49 @@ const SignUp = () => {
                 value = {input.username}
                 onChange={handleChange}
               />
-            {errors.username && <p style={{color: "red"}}>{errors.username}</p>}
+            {errors.username && <p id="signup-username-error" style={{color: "red"}}>{errors.username}</p>}
             </div>
             <div className="form-group mt-3">
               <label>Email</label>
               <input
                 type="email"
+                id="email"
                 name="email"
                 className="form-control mt-1"
                 placeholder="Enter email"
                 value = {input.email}
                 onChange={handleChange}
               />
-              {errors.email && <p style={{color: "red"}}>{errors.email}</p>}
+              {errors.email && <p id="signup-email-error" style={{color: "red"}}>{errors.email}</p>}
             </div>
             <div className="form-group mt-3">
               <label>Password</label>
               <input
                 type="password"
+                id="password"
                 name="password"
                 className="form-control mt-1"
                 placeholder="Enter password"
                 value = {input.password}
                 onChange={handleChange}
               />
-              {errors.password && <p style={{color: "red"}}>{errors.password}</p>}
+              {errors.password && <p id="signup-password-error" style={{color: "red"}}>{errors.password}</p>}
             </div>
             <div className="form-group mt-3">
               <label>Confirm Password</label>
               <input
                 type="password"
+                id="cpassword"
                 name="cpassword"
                 className="form-control mt-1"
                 placeholder="Re-enter password"
                 value = {input.cpassword}
                 onChange={handleChange}
               />
-              {errors.cpassword && <p style={{color: "red"}}>{errors.cpassword}</p>}
+              {errors.cpassword && <p id="signup-cpassword-error" style={{color: "red"}}>{errors.cpassword}</p>}
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary" onClick={handleSignUp}>
+              <button type="submit" id="signup-submit-btn" className="btn btn-primary" onClick={handleSignUp}>
                 Sign Up
               </button>
             </div>

@@ -18,6 +18,13 @@
     grid-template-columns: 1fr 1fr 1fr; /* Three equal-sized columns */
     gap: 50px; /* Gap between grid items */
     align-items: center;
+    /* border-bottom: 2px dotted rgb(231, 138, 154); */
+}
+
+#comments-section {
+    display: grid;
+    grid-template-columns: 1fr; /* Three equal-sized columns */
+   
     border-bottom: 2px dotted;
 }
 
@@ -36,7 +43,7 @@
     gap: 50px;
     grid-row-gap: 100px;
     padding: 10px;
-    border-bottom: 2px dotted;
+    /* border-bottom: 2px dotted; */
 }
 
 .answerText .answerAuthor {

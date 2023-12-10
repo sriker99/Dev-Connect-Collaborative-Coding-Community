@@ -32,7 +32,7 @@ const Header = () => {
     return (
         <div id="header" className="header">
             <div>
-              {loggedIn ? <button onClick={handleLogout}>Logout</button>: null}
+              {loggedIn ? <button id="logout-btn" onClick={handleLogout}>Logout</button>: null}
             </div>
             <h1 id="bannerTitle">Fake Stack Overflow</h1>
             <input id="searchBar" 

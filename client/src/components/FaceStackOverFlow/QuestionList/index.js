@@ -46,7 +46,10 @@ const QuestionsList = ({questions, tags}) => {
     };
 
     const handleNextPage = () => {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+      setCurrentPage((prevPage) => {
+        // If the current page is the last page, go to the first page
+        return prevPage === totalPages ? 1 : Math.min(prevPage + 1, totalPages);
+      });
     };
 
     const dispatch = useDispatch();
@@ -121,7 +124,7 @@ const QuestionsList = ({questions, tags}) => {
                   Previous
                 </button>
                 <span>{` Page ${currentPage} of ${totalPages} `}</span>
-                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                <button onClick={handleNextPage}>
                     Next
                 </button>
                 </div>

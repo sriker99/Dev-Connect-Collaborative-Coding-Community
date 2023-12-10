@@ -13,3 +13,19 @@ export const findTag = async () => {
     return tags;
 }
 
+export const checkTagUpdate = async(body) => {
+    const response = await axios.post(`${API_URL}/checkTagsUpdate`, body);
+    return response.data;
+    
+}
+
+export const deleteTag = async(tagName) => {
+    const response = await axios.delete(`${API_URL}/${tagName}`);
+    return response.data;
+}
+
+export const updateTag = async(tid, tagName) => {
+    const body = {name : tagName}
+    const response = await axios.put(`${API_URL}/${tid}`, body);
+    return response.data;
+}

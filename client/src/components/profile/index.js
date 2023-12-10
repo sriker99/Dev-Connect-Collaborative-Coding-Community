@@ -9,6 +9,12 @@ import { useAuthContext } from '../../hooks/useAuthContext.js';
 import QuestionForm from './questionForm';
 import DisplayAnswers from './answerList';
 import AnswerForm from './answerForm';
+import { AllTagsComponent } from './tags';
+
+function findTagsIncludedInQuestionTags(question, tags) {
+  const includedTags = tags.filter(tag => question.tagIds.includes(tag.tid));
+  return includedTags;
+}
 
 
 function Profile(){
@@ -17,11 +23,20 @@ function Profile(){
   let questions = useSelector(state => state.data.questions);
   let tags = useSelector(state => state.data.tags);
   let answers = useSelector(state => state.data.answers);
-    console.log("answers in profile", answers);
+    console.log("answers in profile", questions, tags);
   const { user } = useAuthContext();
 //   console.log('before profile questiond', questions);
   questions = questions.filter(question => question.askedBy === user.username);
   answers = answers.filter(answer => answer.ansBy === user.username);
+
+  let tagsIncludedInQuestionTags = [];
+  questions.forEach(question => {
+      const includedTagsForQuestion = findTagsIncludedInQuestionTags(question, tags);
+      tagsIncludedInQuestionTags = tagsIncludedInQuestionTags.concat(includedTagsForQuestion);
+  });
+  const uniqueTagsIncludedInQuestionTags = Array.from(new Set(tagsIncludedInQuestionTags.map(tag => tag.tid)))
+      .map(tid => tagsIncludedInQuestionTags.find(tag => tag.tid === tid));
+
   const questionsWithTagObjects = questions.map(question => {
     const questionTags = question.tagIds.map(tagId => {
       return tags.find(tag => tag.tid === tagId);
@@ -39,8 +54,7 @@ function Profile(){
           {navState.user && <ProfileData/>}
           {navState.questions && navState.questionForm ? <QuestionForm/> : navState.questions && <QuestionsList questions={questions} tags={questionsWithTagObjects} />}
           {navState.answers && navState.answerForm ? <AnswerForm/>: navState.answers && <DisplayAnswers answers={answers}/>}
-          {navState.tags && (<div>Tags</div>)}
-          {/* {navState.questionForm && (<div> questionFOrm</div>)} */}
+          {navState.tags && <AllTagsComponent questions={questions} tags={uniqueTagsIncludedInQuestionTags}/>}
         </div>
     </div>
   );

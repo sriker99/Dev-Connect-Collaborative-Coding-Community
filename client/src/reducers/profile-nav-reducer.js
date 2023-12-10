@@ -8,7 +8,7 @@ const initialNavBar = {
     questionForm: false,
     questionObj: null,
     answerForm: false,
-    answerObj: null
+    answerObj: null,
 }
 
 const dataSlice = createSlice ({

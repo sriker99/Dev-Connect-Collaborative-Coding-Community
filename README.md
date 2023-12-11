@@ -47,7 +47,7 @@ Add design docs in *images/*
 
 ## Design Patterns Used
 We have used 
-1) - Design Pattern Name: Singelton  
+1) - Design Pattern Name: Singleton  
 
 - Problem Solved: Creating a single db connection for whole applicationlife cycle using singelton design pattern
 
@@ -60,3 +60,8 @@ We have used
 
 - Problem Solved: Data Access Object for server-database abstraction, ii. Utilized Redux-Thunk middleware for encapsulating API calls between components and services in the application.
 - Location in code where pattern is used: DAO folder in server folders, thunks in client/src/
+
+4) - Design Pattern Name: Provider design pattern
+
+- Problem Solved: We have used provider design pattern to provide user login details to all the components by using useContext hook provider. This helps in maintaining user details across all components.
+- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/hooks/useAuthContext.js

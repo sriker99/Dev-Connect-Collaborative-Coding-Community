@@ -128,7 +128,7 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
                       <div className="vote-section">
                         <div className="vote">
                         {loggedIn && (
-                          <button onClick={() => handleVote(qid, comment._id)}>Upvote</button>
+                          <button id="comment-upvote" onClick={() => handleVote(qid, comment._id)}>Upvote</button>
                         )}
                           <span>votes : {comment.votes}</span>
                         </div>
@@ -161,6 +161,7 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
                   <div className="add-comment">
                     <input
                       type="text"
+                      className='type-comment'
                       value={newComment}
                       onChange={handleCommentChange}
                       placeholder="Add a comment..."

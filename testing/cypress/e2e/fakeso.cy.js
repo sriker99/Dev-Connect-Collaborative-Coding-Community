@@ -1853,7 +1853,7 @@ describe('Fake SO Test Suite', () => {
             cy.get(':nth-child(3) > #arrowContainer > div').contains('34 votes')
         })
 
-        it.only('Guest User - Downvote answer votes', () => {
+        it('Guest User - Downvote answer votes', () => {
             cy.visit('http://localhost:3000');
        
             cy.get('.login-btn').click();
@@ -1878,30 +1878,180 @@ describe('Fake SO Test Suite', () => {
             
         })
 
-
-
-
-
-
-      
-
-        
+        it('Testing active order after adding answers', () => {
     
-
-
-
-
-
-
-
-    // it('4.1 | Search a question by tag (t1)', () => {
-    //     const qTitles = ["Programmatically navigate using React router"];
-    //     cy.visit('http://localhost:3000');
-    //     cy.get('#searchBar').type('[react]{enter}');
-    //     cy.get('.postTitle').each(($el, index, $list) => {
-    //         cy.wrap($el).should('contain', qTitles[index]);
-    //     })
-    // })
+            cy.visit('http://localhost:3000');
+            cy.get('.login-btn').click();
+     
+            cy.get("#username").type("sana");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            // cy.url().should('include', '/login');
+     
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question A');
+            cy.get('#formTextInput').type('Test Question A Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question B');
+            cy.get('#formTextInput').type('Test Question B Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question C');
+            cy.get('#formTextInput').type('Test Question C Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add an answer to question A
+            cy.contains('Test Question A').click();
+            cy.contains('Answer Question').click();
+            cy.get('#answerTextInput').type('Answer Question A');
+            cy.contains('Post Answer').click();
+            
+            // go back to main page
+            cy.contains('Questions').click();
+            cy.contains('Active').click();
+            cy.get('.question').first().contains('Test Question A');
+     
+     
+            cy.contains('Logout').click();
+        })
+     
+        it('Testing adding comments and increase voting', () => {
+        
+            cy.visit('http://localhost:3000');
+            cy.get('.login-btn').click();
+     
+            cy.get("#username").type("sana");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            // cy.url().should('include', '/login');
+     
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question A');
+            cy.get('#formTextInput').type('Test Question A Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question B');
+            cy.get('#formTextInput').type('Test Question B Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question C');
+            cy.get('#formTextInput').type('Test Question C Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add an answer to question A
+            cy.contains('Test Question A').click();
+            cy.contains('Answer Question').click();
+            cy.get('#answerTextInput').type('Answer Question A');
+            cy.contains('Post Answer').click();
+            cy.get('.type-comment').type('comment typed');
+            cy.contains("Add Comment").click();
+            cy.contains("comment typed");
+            cy.get('#comment-upvote').click();
+            cy.contains('votes : 1');
+            
+            cy.contains('Logout').click();
+        })
+     
+        it('Testing User Profile Questions', () => {
+        
+            cy.visit('http://localhost:3000');
+            cy.get('.login-btn').click();
+     
+            cy.get("#username").type("sana");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            // cy.url().should('include', '/login');
+     
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question A');
+            cy.get('#formTextInput').type('Test Question A Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question B');
+            cy.get('#formTextInput').type('Test Question B Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question C');
+            cy.get('#formTextInput').type('Test Question C Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add an answer to question A
+            cy.contains('Profile').click();
+            cy.contains('Questions').click();
+            cy.contains("Test Question A")
+            
+            cy.contains('Logout').click();
+        })
+     
+     
+        it('Testing User Tags delete', () => {
+        
+            cy.visit('http://localhost:3000');
+            cy.get('.login-btn').click();
+     
+            cy.get("#username").type("sana");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            // cy.url().should('include', '/login');
+     
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question A');
+            cy.get('#formTextInput').type('Test Question A Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question B');
+            cy.get('#formTextInput').type('Test Question B Text');
+            cy.get('#formTagInput').type('javascript');
+            cy.contains('Post Question').click();
+     
+            // add another question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question C');
+            cy.get('#formTextInput').type('Test Question C Text');
+            cy.get('#formTagInput').type('React');
+            cy.contains('Post Question').click();
+     
+            // add an answer to question A
+            cy.contains('Profile').click();
+            cy.contains('Tags').click();
+            cy.get("#profileEditTag").first().click();
+            // cy.not.to.contains()
+            
+            cy.contains('Logout').click();
+        })
 
 
 

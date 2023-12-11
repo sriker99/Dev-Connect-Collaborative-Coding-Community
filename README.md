@@ -38,26 +38,123 @@ Add design docs in *images/*
 
 ## Test cases
 
-| Use-case Name   | Test case Name |
-|-----------------|----------------|
-| Signup          | successfully register user         |
-|                 | register user with same email |
-                  register user with same username'
-                  register user with invalid email
-                  register user with password as username
-                  register user with password as email
-                  register user with password mismatch
-                  
-| Login           | login user with different username
-                     successfully login user
-                     login user with invalid password
-                     
-                     
-|   logout             | successfully logout user       |
-  homepage                     guest user
-                                guest user homepage
+| Use-case Name   | Test case Name                                          |
+|-----------------|---------------------------------------------------------|
+| Create Account  | successfully register user                              |
+|                 | register user with same email                           |
+|                 | register user with same username                        |
+|                 | register user with invalid email                        |
+|                 | register user with password as username                 |
+|                 | register user with password as email                    |
+|                 | register user with password mismatch                    |
+|-----------------|---------------------------------------------------------|                  
+| Login           | successfully login user                                 |
+|                 | login user with different username                      |
+|                 | login user with invalid password                        |
+|-----------------|---------------------------------------------------------|
+| logout account  | successfully logout user                                |
+|-----------------|---------------------------------------------------------|
+| homepage(Guest) | guest user                                              |
+|                 | guest user homepage                                     |
+|                 | guest user homepage with no ask a question button       |
+|                 | guest user homepage with no answer question button      |
+|                 | Adds three questions and one answer, then click         |
+|                 | "Questions", then click unanswered button, verifies     |
+|                 | the sequence.                                           |
+|                 | Check if questions are displayed in descending order of |
+|                 | dates.                                                  |
+|                 | Add question as registered user and check questions     |
+|                 | along with newly added are displayed in descending order|
+|                 | of dates.                                               |
 
-Due to insufficient time, we could not include all test cases but we have covered all testcase scenarios in testing/cypress/e2e/fakeso.cy.js. Apoligies for inconvinence.
+|-----------------|---------------------------------------------------------|
+| homepage(registe| Add question, click next if questions are more than 5   |
+|     red)        | Add question, go to next, click previous to display     |
+|                 | first Page questions.                                   |
+|                 | Add question, clicking next on last page will redirect  | 
+|                 | to first page.                                          |
+|                 | Adds three questions and one answer, then click         |
+|                 | Questions, then click unanswered button, verifies the   |
+|                 | sequence.                                               |
+|                 | Check if questions are displayed in descending order    |
+|                 | of dates.                                               |
+|-----------------|---------------------------------------------------------|
+| Searching       | Search for a question using text content that does not  |
+|                 | exist.                                                  |
+|                 | Search string in question title.                        |
+|                 | Search string in question text.                         |
+|                 | Search string in question tag.                          |
+|                 | Search string with question tag and title.              |
+|                 | Search string with question tag and text.               |
+|                 | Search string with question title and text.             |
+|                 | Search string with question title, text and tag.        |
+|                 | Search string with multiple tags.                       |
+|                 | Search for a question using a tag that does not exist.  |
+|                 | Search string with question title, text and tag and     |
+|                 | check newest sorting order.                             |
+|-----------------|---------------------------------------------------------|
+| All tags        | Registered user - Adds a question with tags, checks the |
+|                 | tags existed.                                           |
+|                 | Guest user - Adds a question with tags as registered    |
+|                 | user, checks the tags existed in guest user profile.    |
+|                 | Checks if all tags exist.                               |
+|                 | Checks if all questions exist inside tags.              |
+|                 | go to question in tag react.                            |
+|                 | go to question in tag storage.                          |
+|                 | create a new question with a new tag and finds the      |
+|                 | question through tag.                                   |
+|                 | Click on tag, check if questions related to tag are     |
+|                 | displayed in newest order.                              |
+|-----------------|---------------------------------------------------------|
+| New Question    | Adds Questions.                                         |
+|                 | create a new question with a new tag and finds the      |
+|                 | question through tag.                                   |
+|                 | Guest User - Newly added question should appear with    |
+|                 | list of questions.                                      |
+|                 | Adds Question should display in unanswered sort.        |
+|                 | Guest User - Adds Question should display on clicking   |
+|                 | unanswered sort in guest user profile.                  |
+|                 | Adds Question with empty title error.                   |
+|                 | Adds Question with empty text error.                    |
+|                 | Tries to add a question with an invalid hyperlink and   |
+|                 | verifies failure.                                       |
+|                 | Adds Question with tag greater than 20 error.           |
+|                 | Adds Question with more than 5 tags.                    |
+|                 | cannot add tags with user reputation < 50.              |
+|                 | Upvote question.                                        |
+|                 | Guest User - Upvoted question votes.                    |
+|                 | downvote question.                                      |
+|                 | Guest User - downvote question.                         |
+|-----------------|---------------------------------------------------------|
+| Answers(Guest)  | guest user homepage with no answer question button.     |
+|                 | Guest User - Adds three questions and one answer.       |
+|                 | Guest User - Upvoted answer votes.                      |
+|                 | Guest User - Downvote answer votes.                     |
+|-----------------|---------------------------------------------------------|
+| Answers(Registe | Registered User - Upvote answer.                        |
+| red)            | Registered User - downvote answer.                      |
+|                 | Testing active order after adding answers.              |
+|                 | Adds three questions and one answer.                    |
+|-----------------|---------------------------------------------------------|
+| Comments(Guest) | Testing adding comments and increase voting.            |
+|-----------------|---------------------------------------------------------|
+| Comments(registe| Testing adding comments and increase voting.            |
+| red)            |                                                         |
+|-----------------|---------------------------------------------------------|
+| New Answer      | Adds three questions and one answer.                    |
+|                 | Tries to add answer with an invalid hyperlink.          |
+|                 | Testing adding comments and increase voting.            |
+|                 | downvote answer.                                        |
+|                 | Upvote answer.                                          |
+|                 | Add answer, search string with question title, text and |
+|                 | tag and check unanswered sorting order.                 |
+|-----------------|---------------------------------------------------------|
+| User profile    | Testing User Profile Questions.                         |
+|                 | Testing User Tags delete.                               |
+|                 | cannot add tags with user reputation < 50.              |
+|-----------------|---------------------------------------------------------|
+
+Note: Professor, premitted to update readme after deadline.
 
 ## Design Patterns Used
 We have used 

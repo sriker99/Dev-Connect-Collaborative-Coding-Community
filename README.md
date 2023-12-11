@@ -62,20 +62,15 @@ Due to insufficient time, we could not include all test cases but we have covere
 ## Design Patterns Used
 We have used 
 1) - Design Pattern Name: Singleton  
-
 - Problem Solved: Creating a single db connection for whole applicationlife cycle using singelton design pattern
-
 - Location in code where pattern is used: server.js
-2) - Design Pattern Name: MVC
-
-- Problem Solved: Creating controllers for both client and server, used model at front end and View for rendering react components 
-- Location in code where pattern is used: Client and src folders
-3) - Design Pattern Name: Facade design pattern
+  
+2) - Design Pattern Name: Facade design pattern
 
 - Problem Solved: Data Access Object for server-database abstraction, ii. Utilized Redux-Thunk middleware for encapsulating API calls between components and services in the application.
 - Location in code where pattern is used: DAO folder in server folders, thunks in client/src/
 
-4) - Design Pattern Name: Provider design pattern
+3) - Design Pattern Name: Provider design pattern
 
 - Problem Solved: We have used provider design pattern to provide user login details to all the components by using useContext hook provider. This helps in maintaining user details across all components.
-- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/hooks/useAuthContext.js
+- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/hooks/useAuthContext.js, client/src/index.js

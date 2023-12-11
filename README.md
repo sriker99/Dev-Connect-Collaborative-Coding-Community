@@ -46,12 +46,10 @@ Add design docs in *images/*
 |                 | register user with invalid email                        |
 |                 | register user with password as username                 |
 |                 | register user with password as email                    |
-|                 | register user with password mismatch                    |
-|-----------------|---------------------------------------------------------|                  
+|                 | register user with password mismatch                    |                
 | Login           | successfully login user                                 |
 |                 | login user with different username                      |
 |                 | login user with invalid password                        |
-|-----------------|---------------------------------------------------------|
 | logout account  | successfully logout user                                |
 |-----------------|---------------------------------------------------------|
 | homepage(Guest) | guest user                                              |

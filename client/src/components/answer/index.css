@@ -1,0 +1,117 @@
+#answerForm {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#answersHeader {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three equal-sized columns */
+    gap: 5px; /* Gap between grid items */
+    align-items: center;
+}
+
+#questionBody {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three equal-sized columns */
+    gap: 50px; /* Gap between grid items */
+    align-items: center;
+    /* border-bottom: 2px dotted rgb(231, 138, 154); */
+}
+
+#comments-section {
+    display: grid;
+    grid-template-columns: 1fr; /* Three equal-sized columns */
+   
+    border-bottom: 2px dotted;
+}
+
+
+#ask-question {
+    background-color: #0096FF;
+    color: white;
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px;
+}
+
+#answer-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    grid-row-gap: 100px;
+    padding: 10px;
+    /* border-bottom: 2px dotted; */
+}
+
+.answerText .answerAuthor {
+    grid-column: span 1;
+}
+
+#answer-question {
+    background-color: #0096FF;
+    color: white;
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px;
+    margin: 10px;
+}
+
+#postAnswer {
+    background-color: #0096FF;
+    color: white; 
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px; 
+    display: inline; 
+    margin-right: 15px;
+}
+
+.arrow-up {
+    display: inline-block;
+    width: 0; 
+    height: 0; 
+    background-color: #fff;
+    padding: 0;
+    border: 0;
+    outline: none;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid green;
+  }
+
+.arrow-down {
+    display: inline-block;
+    width: 0; 
+    height: 0; 
+    background-color: #fff;
+    padding: 0;
+    border: 0;
+    outline: none;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid green;
+  }
+
+#arrowContainer {
+    display: flex;
+    gap: 5px; 
+    margin: 0 5px;
+}
+
+#pin-answer {
+    background-color: grey;
+    color: white;
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px;
+}
+
+.answer-tag-buttons > button{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+    

@@ -1,0 +1,108 @@
+/* Comments Section Container */
+.comments-container {
+    margin-left: 10px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    /* border-top: 2px dotted #add8e6;  */
+    border-bottom: 2px dotted #add8e6;
+    display: grid;
+    gap: 20px;
+  }
+  
+  /* Individual Comment Styles */
+  .comment {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-bottom: 2px dotted #add8e6; /* Light blue dotted border */
+    padding: 10px;
+  }
+  
+  /* Vote Section */
+  .vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .vote button {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Comment Text */
+  .comment-text {
+    padding: 0 10px;
+  }
+  
+  /* Comment Details (Date Posted) */
+  .comment-details {
+    padding: 0 10px;
+  }
+  
+  .comment-details p {
+    margin-top: 0;
+    color: #888;
+  }
+  
+  /* Navigation Buttons Section */
+  .comment-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .nav-buttons button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .nav-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Add Comment Section */
+  .add-comment {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .add-comment input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .add-comment button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-comment button:hover {
+    background-color: #0056b3;
+  }
+
+  .error-message{
+    color: red;
+  }
+  

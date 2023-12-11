@@ -1,0 +1,19 @@
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightgray;
+    height: 60px;
+    padding: 20px;
+    margin: 0%;
+}
+
+#bannerTitle {
+    text-align: center;
+    flex-grow: 1;
+}
+
+#searchBar {
+    margin-left: auto;
+    width: 200px;
+}

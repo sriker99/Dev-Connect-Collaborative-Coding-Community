@@ -1,0 +1,19 @@
+#sideBarNav{
+    border-right: 2px dotted;
+    height: auto;
+ }
+
+ #questions-bar{
+    text-align: center;
+    color: blue;
+    font-size: large;
+    background-color: lightgray;
+    margin-top: 15%;
+ }
+
+ #tags-bar{
+    text-align: center;
+    color: blue;
+    font-size: large;
+    margin-top: 15%;
+ }

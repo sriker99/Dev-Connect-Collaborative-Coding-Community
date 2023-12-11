@@ -1,0 +1,34 @@
+#profilequestionForm {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+ }
+
+ #profileformTextInput {
+    height: 200px;
+ }
+
+ #profileformTextInput::placeholder {
+    vertical-align: top;
+  }
+ 
+ #profileEditQuestion {
+    background-color: #0096FF;
+    color: white; 
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px; 
+    display: inline; 
+    margin-right: 15px;
+ }
+
+ #profileDeleteQuestion {
+    background-color: red;
+    color: white; 
+    padding: 10px 20px;
+    border: black; 
+    border-radius: 5px; 
+    display: inline; 
+    margin-right: 15px;
+ }
+ 

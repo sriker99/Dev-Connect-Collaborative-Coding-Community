@@ -152,9 +152,9 @@ We have used
 2) - Design Pattern Name: Facade design pattern
 
 - Problem Solved: Data Access Object for server-database abstraction, ii. Utilized Redux-Thunk middleware for encapsulating API calls between components and services in the application.
-- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/
+- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/thunks, client/src/services
 
 3) - Design Pattern Name: Provider design pattern
 
 - Problem Solved: We have used provider design pattern to provide user login details to all the components by using useContext hook provider. This helps in maintaining user details across all components.
-- Location in code where pattern is used: DAO folder in server folders, thunks in client/src/hooks/useAuthContext.js, client/src/index.js
+- Location in code where pattern is used: client/src/hooks/useAuthContext.js, client/src/index.js

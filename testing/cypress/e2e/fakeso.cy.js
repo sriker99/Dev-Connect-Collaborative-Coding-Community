@@ -1643,22 +1643,13 @@ describe('Fake SO Test Suite', () => {
         })
 
         it('Registered User - Adds Question with more than 5 tags', () => {
-            cy.visit('http://localhost:3000');
-            cy.get('.signup-btn').click();
-    
-            cy.get("#username").type("Xyz");
-            cy.get("#email").type("xyz@gmail.com");
-            cy.get("#password").type("qwerty", { sensitive: true });
-            cy.get("#cpassword").type("qwerty", { sensitive: true });
-            cy.get('#signup-submit-btn').click();
-            // cy.url().should('include', '/login');
-    
-            cy.visit('http://localhost:3000');
+            
             cy.get('.login-btn').click();
-            cy.get("#username").type("Xyz");
-            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
             cy.get('#login-submit-btn').click();
             cy.url().should('include', '/home');
+            
             
             // add a question
             cy.contains('Ask a Question').click();

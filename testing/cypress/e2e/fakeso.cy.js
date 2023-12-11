@@ -301,7 +301,7 @@ describe('Fake SO Test Suite', () => {
         })
     })
 
-    it.only('Registered User - Add question, go to next, click previous to display first Page questions', () => {
+    it('Registered User - Add question, go to next, click previous to display first Page questions', () => {
         cy.visit('http://localhost:3000');
         cy.get('.signup-btn').click();
 
@@ -341,18 +341,11 @@ describe('Fake SO Test Suite', () => {
         const firstPage = ['Test Question B', 'Test Question A', 'Quick question about storage on android', 'Object storage for a web application', 'android studio save string shared preference, start activity and load the saved string'];
         const secondPage = ['Programmatically navigate using React router']
 
-        // //first page
-        // cy.get('.postTitle').each(($el, index, $list) => {
-        //     cy.wrap($el).should('contain', firstPage[index]);
-        // })
-        // clicks unanswered
         cy.contains('Next').click();
      
         cy.get('.postTitle').each(($el, index, $list) => {
             cy.wrap($el).should('contain', secondPage[index]);
         })
-
-        // const firstPage = ['Test Question B', 'Test Question A', 'Quick question about storage on android', 'Object storage for a web application', 'android studio save string shared preference, start activity and load the saved string'];
 
         cy.contains('Previous').click();
      
@@ -360,6 +353,118 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', firstPage[index]);
         })
     })
+
+    it('Registered User - Add question, go to next, click previous to display first Page questions', () => {
+        cy.visit('http://localhost:3000');
+        cy.get('.signup-btn').click();
+
+        cy.get("#username").type("Xyz");
+        cy.get("#email").type("xyz@gmail.com");
+        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#cpassword").type("qwerty", { sensitive: true });
+        cy.get('#signup-submit-btn').click();
+        // cy.url().should('include', '/login');
+
+        cy.visit('http://localhost:3000');
+        cy.get('.login-btn').click();
+        cy.get("#username").type("Xyz");
+        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get('#login-submit-btn').click();
+        cy.url().should('include', '/home');
+        
+        // add a question
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question A');
+        cy.get('#formTextInput').type('Test Question A Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.contains('Post Question').click();
+
+        cy.contains('Questions').click();
+
+        // add another question
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question B');
+        cy.get('#formTextInput').type('Test Question B Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.contains('Post Question').click();
+
+        // go back to main page
+        cy.contains('Questions').click();
+
+        const firstPage = ['Test Question B', 'Test Question A', 'Quick question about storage on android', 'Object storage for a web application', 'android studio save string shared preference, start activity and load the saved string'];
+        const secondPage = ['Programmatically navigate using React router']
+
+        cy.contains('Next').click();
+     
+        cy.get('.postTitle').each(($el, index, $list) => {
+            cy.wrap($el).should('contain', secondPage[index]);
+        })
+
+        cy.contains('Previous').click();
+     
+        cy.get('.postTitle').each(($el, index, $list) => {
+            cy.wrap($el).should('contain', firstPage[index]);
+        })
+    })
+
+    it('Registered User - Add question, clicking next on last page will redirect to first page', () => {
+        cy.visit('http://localhost:3000');
+        cy.get('.signup-btn').click();
+
+        cy.get("#username").type("Xyz");
+        cy.get("#email").type("xyz@gmail.com");
+        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#cpassword").type("qwerty", { sensitive: true });
+        cy.get('#signup-submit-btn').click();
+        // cy.url().should('include', '/login');
+
+        cy.visit('http://localhost:3000');
+        cy.get('.login-btn').click();
+        cy.get("#username").type("Xyz");
+        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get('#login-submit-btn').click();
+        cy.url().should('include', '/home');
+        
+        // add a question
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question A');
+        cy.get('#formTextInput').type('Test Question A Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.contains('Post Question').click();
+
+        cy.contains('Questions').click();
+
+        // add another question
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question B');
+        cy.get('#formTextInput').type('Test Question B Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.contains('Post Question').click();
+
+        // go back to main page
+        cy.contains('Questions').click();
+
+       
+        const secondPage = ['Programmatically navigate using React router']
+
+        cy.contains('Next').click();
+     
+        cy.get('.postTitle').each(($el, index, $list) => {
+            cy.wrap($el).should('contain', secondPage[index]);
+        })
+
+        cy.contains('Next').click();
+        cy.contains('Next').click();
+        const firstPage = ['Test Question B', 'Test Question A', 'Quick question about storage on android', 'Object storage for a web application', 'android studio save string shared preference, start activity and load the saved string'];
+        
+        // cy.contains('Previous').click();
+     
+        cy.get('.postTitle').each(($el, index, $list) => {
+            cy.wrap($el).should('contain', firstPage[index]);
+        })
+    })
+
+
 
 
     it('Registered User - Adds three questions and one answer, then click "Questions", then click unanswered button, verifies the sequence', () => {

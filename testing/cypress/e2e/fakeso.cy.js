@@ -205,7 +205,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
     });
 
@@ -221,7 +221,7 @@ describe('Fake SO Test Suite', () => {
         cy.url().should('include', '/home');
         cy.contains('Fake Stack Overflow');
         cy.contains('All Questions');
-        cy.contains('2 questions');
+        cy.contains('4 questions');
         cy.contains('Newest');
         cy.contains('Active');
         cy.contains('Unanswered');
@@ -251,19 +251,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Add question, click next if questions are more than 5', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -303,19 +294,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Add question, go to next, click previous to display first Page questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -356,19 +338,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Add question, go to next, click previous to display first Page questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -409,19 +382,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Add question, clicking next on last page will redirect to first page', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -469,19 +433,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Adds three questions and one answer, then click "Questions", then click unanswered button, verifies the sequence', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -526,19 +481,10 @@ describe('Fake SO Test Suite', () => {
     it('Guest User - Adds three questions and one answer, then click "Questions", then click unanswered button, verifies the sequence', () => {
     
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -572,7 +518,7 @@ describe('Fake SO Test Suite', () => {
         // go back to main page
         cy.contains('Questions').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -588,19 +534,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Check if questions are displayed in descending order of dates.', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
 
@@ -626,19 +563,10 @@ describe('Fake SO Test Suite', () => {
     it('Guest User - Add question as registered user and check questions along with newly added are displayed in descending order of dates ', () => {
     
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -649,7 +577,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#formTagInput').type('javascript');
         cy.contains('Post Question').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -664,19 +592,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Adds multiple questions one by one and displays them in All Questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
 
@@ -718,19 +637,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Guest User - Adds multiple questions one by one as registered user and displays them in All Questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
 
@@ -754,7 +664,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#formTagInput').type('java');
         cy.contains('Post Question').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -798,7 +708,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#searchBar').type(`${searchText}{enter}`);
         cy.get('.postTitle').should('have.length', 0);
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -834,7 +744,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -872,7 +782,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qText[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -910,7 +820,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -948,7 +858,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -986,7 +896,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1024,7 +934,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1062,7 +972,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1100,7 +1010,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1135,7 +1045,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#searchBar').type('[nonExistentTag]{enter}');
         cy.get('.postTitle').should('have.length', 0);
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1174,7 +1084,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1196,19 +1106,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Add answer, search string with question title, text and tag and check unanswered sorting order', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
 
@@ -1230,7 +1131,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qSortTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1252,19 +1153,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered user - Adds a question with tags, checks the tags existed', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1285,19 +1177,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Guest user - Adds a question with tags as registered user, checks the tags existed in guest user profile', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1308,7 +1191,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#formTagInput').type('test1 test2 test3');
         cy.contains('Post Question').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1349,7 +1232,7 @@ describe('Fake SO Test Suite', () => {
         cy.contains('website', {matchCase: false});
         cy.contains('Flutter', {matchCase: false});
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1389,7 +1272,7 @@ describe('Fake SO Test Suite', () => {
         cy.contains('1 question');
         cy.contains('2 questions');
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         cy.get('.guest-btn').click();
@@ -1423,7 +1306,7 @@ describe('Fake SO Test Suite', () => {
         cy.contains('react').click();
         cy.contains('Programmatically navigate using React router')
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1457,7 +1340,7 @@ describe('Fake SO Test Suite', () => {
         cy.contains('Quick question about storage on android')
         cy.contains('Object storage for a web application')
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1471,19 +1354,10 @@ describe('Fake SO Test Suite', () => {
 
     it('create a new question with a new tag and finds the question through tag', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         // all question no. should be in the page
@@ -1498,7 +1372,7 @@ describe('Fake SO Test Suite', () => {
         cy.contains('test1-tag1').click();
         cy.contains('Test Question A')  
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1511,19 +1385,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Click on tag, check if questions related to tag are displayed in newest order', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         // all question no. should be in the page
@@ -1538,7 +1403,7 @@ describe('Fake SO Test Suite', () => {
             cy.wrap($el).should('contain', qTitles[index]);
         })
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1559,19 +1424,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Adds Questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1594,19 +1450,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Guest User - Newly added question should appear with list of questions', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1617,7 +1464,7 @@ describe('Fake SO Test Suite', () => {
         cy.get('#formTagInput').type('javascript');
         cy.contains('Post Question').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1636,19 +1483,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Adds Question should display in unanswered sort', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1672,19 +1510,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Guest User - Adds Question should display on clicking unanswered sort in guest user profile', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1698,7 +1527,7 @@ describe('Fake SO Test Suite', () => {
         // go back to main page
         cy.contains('Questions').click();
 
-        cy.get('#logout-btn').click();
+        cy.contains('Logout').click();
         cy.url().should('include', '/');
 
         //guest user
@@ -1717,19 +1546,10 @@ describe('Fake SO Test Suite', () => {
 
     it('Registered User - Adds Question with empty title error', () => {
         cy.visit('http://localhost:3000');
-        cy.get('.signup-btn').click();
-
-        cy.get("#username").type("Xyz");
-        cy.get("#email").type("xyz@gmail.com");
-        cy.get("#password").type("qwerty", { sensitive: true });
-        cy.get("#cpassword").type("qwerty", { sensitive: true });
-        cy.get('#signup-submit-btn').click();
-        // cy.url().should('include', '/login');
-
-        cy.visit('http://localhost:3000');
+       
         cy.get('.login-btn').click();
-        cy.get("#username").type("Xyz");
-        cy.get("#password").type("qwerty", { sensitive: true });
+        cy.get("#username").type("abaya");
+        cy.get("#password").type("abc@1234", { sensitive: true });
         cy.get('#login-submit-btn').click();
         cy.url().should('include', '/home');
         
@@ -1744,19 +1564,10 @@ describe('Fake SO Test Suite', () => {
 
         it('Registered User - Adds Question with empty text error', () => {
             cy.visit('http://localhost:3000');
-            cy.get('.signup-btn').click();
-    
-            cy.get("#username").type("Xyz");
-            cy.get("#email").type("xyz@gmail.com");
-            cy.get("#password").type("qwerty", { sensitive: true });
-            cy.get("#cpassword").type("qwerty", { sensitive: true });
-            cy.get('#signup-submit-btn').click();
-            // cy.url().should('include', '/login');
-    
-            cy.visit('http://localhost:3000');
+       
             cy.get('.login-btn').click();
-            cy.get("#username").type("Xyz");
-            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
             cy.get('#login-submit-btn').click();
             cy.url().should('include', '/home');
             
@@ -1772,19 +1583,10 @@ describe('Fake SO Test Suite', () => {
         it('Tries to add a question with an invalid hyperlink and verifies failure', () => {
 
             cy.visit('http://localhost:3000');
-            cy.get('.signup-btn').click();
-    
-            cy.get("#username").type("Xyz");
-            cy.get("#email").type("xyz@gmail.com");
-            cy.get("#password").type("qwerty", { sensitive: true });
-            cy.get("#cpassword").type("qwerty", { sensitive: true });
-            cy.get('#signup-submit-btn').click();
-            // cy.url().should('include', '/login');
-    
-            cy.visit('http://localhost:3000');
+        
             cy.get('.login-btn').click();
-            cy.get("#username").type("Xyz");
-            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
             cy.get('#login-submit-btn').click();
             cy.url().should('include', '/home');
 
@@ -1823,19 +1625,10 @@ describe('Fake SO Test Suite', () => {
 
         it('Registered User - Adds Question with tag greater than 20 error', () => {
             cy.visit('http://localhost:3000');
-            cy.get('.signup-btn').click();
-    
-            cy.get("#username").type("Xyz");
-            cy.get("#email").type("xyz@gmail.com");
-            cy.get("#password").type("qwerty", { sensitive: true });
-            cy.get("#cpassword").type("qwerty", { sensitive: true });
-            cy.get('#signup-submit-btn').click();
-            // cy.url().should('include', '/login');
-    
-            cy.visit('http://localhost:3000');
+       
             cy.get('.login-btn').click();
-            cy.get("#username").type("Xyz");
-            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
             cy.get('#login-submit-btn').click();
             cy.url().should('include', '/home');
             
@@ -1876,13 +1669,38 @@ describe('Fake SO Test Suite', () => {
             cy.contains("Extra tags: 'Cannot have more than 5 tags'");
         })
 
-
-        //toDO
-        it('Registered User - Cannot add tag with user reputation less than 50', () => {
+        it('Registered User - cannot add tags with user reputation < 50', () => {
             cy.visit('http://localhost:3000');
-           
+            cy.get('.signup-btn').click();
+    
+            cy.get("#username").type("Xyz");
+            cy.get("#email").type("xyz@gmail.com");
+            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get("#cpassword").type("qwerty", { sensitive: true });
+            cy.get('#signup-submit-btn').click();
+            // cy.url().should('include', '/login');
+    
+            cy.visit('http://localhost:3000');
             cy.get('.login-btn').click();
-            cy.get("#username").type("saltyPeter");
+            cy.get("#username").type("Xyz");
+            cy.get("#password").type("qwerty", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question 1 Title Q1');
+            cy.get('#formTextInput').type('Test Question 1 Text Q1');
+            cy.get('#formTagInput').type('javascript react html vanilla python css');
+            cy.contains('Post Question').click();
+            cy.contains("user reputation is less than 50");
+        })
+
+        it('Registered User - Upvote question', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
             cy.get("#password").type("abc@1234", { sensitive: true });
             cy.get('#login-submit-btn').click();
             cy.url().should('include', '/home');
@@ -1893,8 +1711,179 @@ describe('Fake SO Test Suite', () => {
             cy.get('#formTextInput').type('Test Question 1 Text Q1');
             cy.get('#formTagInput').type('javascript react');
             cy.contains('Post Question').click();
-            cy.contains("Extra tags: 'Cannot have more than 5 tags'");
+           
+            cy.contains('Questions').click();
+
+            cy.contains('Test Question 1 Title Q1').click();
+            cy.get('.arrow-up').click();
+            cy.get('#question-votes').contains('1 votes');
         })
+
+        it('Guest User - Upvoted question votes', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question 1 Title Q1');
+            cy.get('#formTextInput').type('Test Question 1 Text Q1');
+            cy.get('#formTagInput').type('javascript react');
+            cy.contains('Post Question').click();
+           
+            cy.contains('Questions').click();
+
+            cy.contains('Test Question 1 Title Q1').click();
+            cy.get('.arrow-up').click();
+            cy.get('#question-votes').contains('1 votes');
+
+            cy.contains('Logout').click();
+            cy.url().should('include', '/');
+
+            cy.get('.guest-btn').click();
+            cy.url().should('include', '/home');
+
+            cy.contains('Test Question 1 Title Q1').click();
+            cy.get('#guest-question-votes').contains('1 votes');
+            
+        })
+
+        it('Registered User - downvote question', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question 1 Title Q1');
+            cy.get('#formTextInput').type('Test Question 1 Text Q1');
+            cy.get('#formTagInput').type('javascript react');
+            cy.contains('Post Question').click();
+           
+            cy.contains('Questions').click();
+
+            cy.contains('Test Question 1 Title Q1').click();
+            cy.get('.arrow-down').click();
+            cy.get('#question-votes').contains('-1 votes');
+        })
+
+        it('Guest User - downvote question', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+            // add a question
+            cy.contains('Ask a Question').click();
+            cy.get('#formTitleInput').type('Test Question 1 Title Q1');
+            cy.get('#formTextInput').type('Test Question 1 Text Q1');
+            cy.get('#formTagInput').type('javascript react');
+            cy.contains('Post Question').click();
+           
+            cy.contains('Questions').click();
+
+            cy.contains('Test Question 1 Title Q1').click();
+            cy.get('.arrow-down').click();
+            cy.get('#question-votes').contains('-1 votes');
+        })
+
+        it('Registered User - Upvote answer', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get(':nth-child(3) > #arrowContainer > .arrow-up').click();
+            cy.get(':nth-child(3) > #arrowContainer > div').contains('36 votes')
+        })
+
+        it('Guest User - Upvoted answer votes', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get(':nth-child(3) > #arrowContainer > .arrow-up').click();
+            cy.get(':nth-child(3) > #arrowContainer > div').contains('36 votes')
+
+            cy.contains('Logout').click();
+            cy.url().should('include', '/');
+
+            cy.get('.guest-btn').click();
+            cy.url().should('include', '/home');
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get('#answer-row > h5').contains('36 votes');
+            
+        })
+
+        it('Registered User - downvote answer', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get(':nth-child(3) > #arrowContainer > .arrow-down').click();
+            cy.get(':nth-child(3) > #arrowContainer > div').contains('34 votes')
+        })
+
+        it.only('Guest User - Downvote answer votes', () => {
+            cy.visit('http://localhost:3000');
+       
+            cy.get('.login-btn').click();
+            cy.get("#username").type("abaya");
+            cy.get("#password").type("abc@1234", { sensitive: true });
+            cy.get('#login-submit-btn').click();
+            cy.url().should('include', '/home');
+            
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get(':nth-child(3) > #arrowContainer > .arrow-down').click();
+            cy.get(':nth-child(3) > #arrowContainer > div').contains('34 votes')
+
+            cy.contains('Logout').click();
+            cy.url().should('include', '/');
+
+            cy.get('.guest-btn').click();
+            cy.url().should('include', '/home');
+
+            cy.contains('Quick question about storage on android').click();
+            cy.get('#answer-row > h5').contains('34 votes');
+            
+        })
+
+
+
+
+
+
+      
 
         
     

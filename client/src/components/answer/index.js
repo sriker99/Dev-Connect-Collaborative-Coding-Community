@@ -273,11 +273,11 @@ const AnswerPage = ({question}) => {
                     <div id="arrowContainer">
                         <button className='arrow-up' onClick={handleQuestionUpvote}></button>
                         <button className='arrow-down' onClick={handleQuestionDownvote}></button>
-                        <div>{question.votes} votes</div>
+                        <div id="question-votes">{question.votes} votes</div>
                         <br/>
                         {errors.votes && <p style={{color: "red"}}>{errors.votes}</p>}
                     </div>
-                ) : <h5>{question.votes} votes</h5>
+                ) : <h5 id="guest-question-votes">{question.votes} votes</h5>
                 } 
             </div>
             <div id="comments-section">

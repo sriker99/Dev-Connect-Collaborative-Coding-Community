@@ -6,17 +6,19 @@ Add design docs in *images/*
 ## Instructions to setup and run project
 
 **Steps for setting up initial DB**: 
-1) cd cs5500-final-project-sai-sanjana/server/
+1) cd cs5500-final-project-sai-sanjana/server/<br/>
 2) node init.js mongodb://127.0.0.1:27017/fake_so(sets up the inital data)<br/>
 **Steps for starting server**:<br/>
-1) start server by nodemon server.js<br/>
+1) cd cs5500-final-project-sai-sanjana/server/<br/>
+2) npm install<br/>
+3) start server by nodemon server.js<br/>
 **Steps for running frontend**:<br/>
 1) cd cs5500-final-project-sai-sanjana/client/src/
-2) npm start<br/>
+2) npm install<br/>
+3) npm start<br/>
 **Steps for running tests**:<br/>
-1) cd cs5500-final-project-sai-sanjana/testing/
-2) npx cypress open
-
+1) cd cs5500-final-project-sai-sanjana/testing/<br/>
+2) npx cypress open<br/>
    
 
 ## Sanjana's Contribution
@@ -51,7 +53,6 @@ Add design docs in *images/*
 |                 | login user with different username                      |
 |                 | login user with invalid password                        |
 | logout account  | successfully logout user                                |
-|-----------------|---------------------------------------------------------|
 | homepage(Guest) | guest user                                              |
 |                 | guest user homepage                                     |
 |                 | guest user homepage with no ask a question button       |
@@ -64,8 +65,6 @@ Add design docs in *images/*
 |                 | Add question as registered user and check questions     |
 |                 | along with newly added are displayed in descending order|
 |                 | of dates.                                               |
-
-|-----------------|---------------------------------------------------------|
 | homepage(registe| Add question, click next if questions are more than 5   |
 |     red)        | Add question, go to next, click previous to display     |
 |                 | first Page questions.                                   |
@@ -76,7 +75,6 @@ Add design docs in *images/*
 |                 | sequence.                                               |
 |                 | Check if questions are displayed in descending order    |
 |                 | of dates.                                               |
-|-----------------|---------------------------------------------------------|
 | Searching       | Search for a question using text content that does not  |
 |                 | exist.                                                  |
 |                 | Search string in question title.                        |
@@ -90,7 +88,6 @@ Add design docs in *images/*
 |                 | Search for a question using a tag that does not exist.  |
 |                 | Search string with question title, text and tag and     |
 |                 | check newest sorting order.                             |
-|-----------------|---------------------------------------------------------|
 | All tags        | Registered user - Adds a question with tags, checks the |
 |                 | tags existed.                                           |
 |                 | Guest user - Adds a question with tags as registered    |
@@ -103,7 +100,6 @@ Add design docs in *images/*
 |                 | question through tag.                                   |
 |                 | Click on tag, check if questions related to tag are     |
 |                 | displayed in newest order.                              |
-|-----------------|---------------------------------------------------------|
 | New Question    | Adds Questions.                                         |
 |                 | create a new question with a new tag and finds the      |
 |                 | question through tag.                                   |
@@ -123,22 +119,17 @@ Add design docs in *images/*
 |                 | Guest User - Upvoted question votes.                    |
 |                 | downvote question.                                      |
 |                 | Guest User - downvote question.                         |
-|-----------------|---------------------------------------------------------|
 | Answers(Guest)  | guest user homepage with no answer question button.     |
 |                 | Guest User - Adds three questions and one answer.       |
 |                 | Guest User - Upvoted answer votes.                      |
 |                 | Guest User - Downvote answer votes.                     |
-|-----------------|---------------------------------------------------------|
 | Answers(Registe | Registered User - Upvote answer.                        |
 | red)            | Registered User - downvote answer.                      |
 |                 | Testing active order after adding answers.              |
 |                 | Adds three questions and one answer.                    |
-|-----------------|---------------------------------------------------------|
 | Comments(Guest) | Testing adding comments and increase voting.            |
-|-----------------|---------------------------------------------------------|
 | Comments(registe| Testing adding comments and increase voting.            |
 | red)            |                                                         |
-|-----------------|---------------------------------------------------------|
 | New Answer      | Adds three questions and one answer.                    |
 |                 | Tries to add answer with an invalid hyperlink.          |
 |                 | Testing adding comments and increase voting.            |
@@ -146,11 +137,9 @@ Add design docs in *images/*
 |                 | Upvote answer.                                          |
 |                 | Add answer, search string with question title, text and |
 |                 | tag and check unanswered sorting order.                 |
-|-----------------|---------------------------------------------------------|
 | User profile    | Testing User Profile Questions.                         |
 |                 | Testing User Tags delete.                               |
 |                 | cannot add tags with user reputation < 50.              |
-|-----------------|---------------------------------------------------------|
 
 Note: Professor, premitted to update readme after deadline.
 

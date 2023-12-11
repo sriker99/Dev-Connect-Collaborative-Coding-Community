@@ -9,10 +9,10 @@ Add design docs in *images/*
 1) cd cs5500-final-project-sai-sanjana/server/
 2) node init.js mongodb://127.0.0.1:27017/fake_so(sets up the inital data)<br/>
 **Steps for starting server**:<br/>
-1) start server by nodemon server.js
+1) start server by nodemon server.js<br/>
 **Steps for running frontend**:<br/>
 1) cd cs5500-final-project-sai-sanjana/client/src/
-2) npm start
+2) npm start<br/>
 **Steps for running tests**:<br/>
 1) cd cs5500-final-project-sai-sanjana/testing/
 2) npx cypress open

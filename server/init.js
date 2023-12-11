@@ -89,6 +89,8 @@ function questionCreate(title, text, tags, answers, asked_by, ask_date_time, vie
   if (views != false) qstndetail.views = views;
   if (votes != false) qstndetail.votes = votes;
   if (comments != false) qstndetail.comments = comments;
+  qstndetail.active_order = new Date().toString();
+  
 //   if(lastestActivityDate != false) qstndetail.lastestActivityDate = lastestActivityDate;
 
    let question = new Question(qstndetail);
@@ -105,6 +107,14 @@ const populate = async () => {
   let u6 = await userCreate('alia', 'al@gmail.com', 'abc@1234', new Date('2023-12-01').toString(), 75);
   let u7 = await userCreate('sana', 'sn@gmail.com', 'abc@1234', new Date('2023-12-01').toString(), 65);
   console.log("USERS CREATED");
+
+  await u1.save();
+  await u2.save();
+  await u3.save();
+  await u4.save();
+  await u5.save();
+  await u6.save();
+  await u7.save();
 
   let c1 = await commentCreate('good comment question', 'Joji John', 1, new Date('2022-11-01T15:24:19').toString());
   let c2 = await commentCreate('good comment answer', 'hamkalo', 0, new Date('2023-11-01T15:24:19').toString());

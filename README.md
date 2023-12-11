@@ -40,10 +40,24 @@ Add design docs in *images/*
 
 | Use-case Name   | Test case Name |
 |-----------------|----------------|
-| Home Page       | Test-1         |
-|                 | Test-2         |
-| Login           | Test-1         |
-|                 | Test-2         |
+| Signup          | successfully register user         |
+|                 | register user with same email |
+                  register user with same username'
+                  register user with invalid email
+                  register user with password as username
+                  register user with password as email
+                  register user with password mismatch
+                  
+| Login           | login user with different username
+                     successfully login user
+                     login user with invalid password
+                     
+                     
+|   logout             | successfully logout user       |
+  homepage                     guest user
+                                guest user homepage
+
+Due to insufficient time, we could not include all test cases but we have covered all testcase scenarios in testing/cypress/e2e/fakeso.cy.js. Apoligies for inconvinence.
 
 ## Design Patterns Used
 We have used 

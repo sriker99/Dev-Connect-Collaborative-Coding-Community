@@ -28,7 +28,7 @@ function Profile(){
 //   console.log('before profile questiond', questions);
   questions = questions.filter(question => question.askedBy === user.username);
   answers = answers.filter(answer => answer.ansBy === user.username);
-
+  questions.sort((a, b) => new Date(b.askDate) - new Date(a.askDate));    
   let tagsIncludedInQuestionTags = [];
   questions.forEach(question => {
       const includedTagsForQuestion = findTagsIncludedInQuestionTags(question, tags);

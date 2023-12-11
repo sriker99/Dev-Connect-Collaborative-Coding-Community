@@ -59,7 +59,7 @@ function FakeStackOverFlow() {
     
         // Call the verifyCookie function
         verifyCookie();
-      }, [cookies, navigate, removeCookie]);
+      }, [cookies, navigate, removeCookie, dispatch]);
   return (
     <Provider store={store}>
       <AppContent />

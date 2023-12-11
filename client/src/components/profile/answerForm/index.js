@@ -41,6 +41,7 @@ const AnswerForm = () => {
 
     const handleDelete = (aid) => {
         deleteAnswer(aid).then((data) => {
+          
           dispatch(findTagThunk());
           dispatch(findAnswerThunk());
           dispatch(findQuestionThunk()); 

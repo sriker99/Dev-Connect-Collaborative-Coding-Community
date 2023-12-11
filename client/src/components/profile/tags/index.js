@@ -1,9 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './index.css';
-import { updateNavState } from '../../../reducers/nav-reducer';
-import { QuestionsList } from '../../FaceStackOverFlow/QuestionList';
-import { useAuthContext } from '../../../hooks/useAuthContext';
  import { useState } from 'react';
 import { checkTagUpdate, deleteTag, updateTag} from '../../../services/tag-service';
 import { findQuestionThunk } from "../../../thunks/question-thunks"
@@ -11,9 +8,6 @@ import { findTagThunk } from "../../../thunks/tag-thunks";
 import { findAnswerThunk } from "../../../thunks/answer-thunks";
 import { updateProfileNavState } from '../../../reducers/profile-nav-reducer';
 
-const questionFormPageStatus = {
-    pageStatus: 'questionForm'
-}
  
 
 
@@ -106,6 +100,7 @@ const GenerateTags = ({ questions, tags }) => {
         if(q.tagIds.includes(tag.tid)){
           return q.qid;
         }
+        return undefined
       });
       qids = qids.filter(q => q !== undefined);
       console.log("qids", qids);

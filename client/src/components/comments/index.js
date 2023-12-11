@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import './index.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateVotes, addCommentsToQuestion, addCommentsToAnswer} from "../../thunks/comments-thunks.js";
 import { useAuthContext } from '../../hooks/useAuthContext.js';
+import { findQuestionThunk } from '../../thunks/question-thunks';
 
 const formatCommentMetadata = (username, postDate) => {
   const currentDate = new Date();
@@ -58,7 +59,6 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
   }, [stateComments, comments, currentPage]);
 
   const handleNextPage = () => {
-    const lastPage = Math.ceil(comments.length / 3);
     const nextIndex = currentPage * 3;
     if (nextIndex < comments.length) {
       setCurrentPage(currentPage + 1);
@@ -82,14 +82,14 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
   };
 
   const addComment = () => {
+    console.log("user", user);
     if (newComment.length === 0) {
       setErrorMessage("Comment text empty");
     } else if (newComment.length > 140) {
       setErrorMessage("Comment must be less than 140 characters.");
-    }
-    // } else if (foundQuestion.asked_by.reputation < 50) {
-    //   setErrorMessage("User reputation below 50.");
-    // } 
+    } else if (user.reputation < 50) {
+      setErrorMessage("User reputation below 50.");
+    } 
     else {
       setErrorMessage("");
       const goodComment = {
@@ -103,8 +103,10 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
     }
   };
 
-  const handleVote = (cid) => {
-    dispatch(updateVotes(cid));
+
+  const handleVote = (qid, cid) => {
+    dispatch(updateVotes({qid, cid}));
+    dispatch(findQuestionThunk());
   };
 
   const commentsHeading = () => {
@@ -126,7 +128,7 @@ const CommentsSection = ({qid, aid, type, stateComments}) => {
                       <div className="vote-section">
                         <div className="vote">
                         {loggedIn && (
-                          <button onClick={() => handleVote(comment._id)}>Upvote</button>
+                          <button onClick={() => handleVote(qid, comment._id)}>Upvote</button>
                         )}
                           <span>votes : {comment.votes}</span>
                         </div>

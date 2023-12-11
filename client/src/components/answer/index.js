@@ -7,13 +7,11 @@ import { createAnswerThunk, updateAnswerAcceptedThunk, updateAnswerVoteThunk } f
 import { findQuestionByIdThunk, updateQuestionThunk, updateQuestionVoteThunk } from '../../thunks/question-thunks';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { checkAcceptAnswer, paginateAcceptedAnswers, paginatedAnswers } from '../../services/answer-service';
-import { updateQuestion } from '../../reducers/data-reducer';
 import { updateNavState } from "../../reducers/nav-reducer";
 import CommentsSection from '../comments'
+import { findQuestionThunk } from "../../thunks/question-thunks"
 
-const extractAnswerComments = (aid, answerComments) => {
-    return answerComments[aid];
-}
+
 
 const AnswerPage = ({question}) => {
     const commentType = {
@@ -75,8 +73,7 @@ const AnswerPage = ({question}) => {
             incrementViews(question.qid);
             hasMounted.current = true;
         }
-       console.log("user", user.reputation);
-    }, [question.qid, data.answers, incrementViews, user]);
+    }, [question.qid, data.answers, incrementViews, user, currentAcceptedPage, currentPage, dispatch]);
       
 
     const handlePrevPage = useCallback(() => {
@@ -91,10 +88,11 @@ const AnswerPage = ({question}) => {
         }
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
         setCurrentAcceptedPage((prevAcceptedPage) =>  Math.max(prevAcceptedPage - 1, 1));
-      }, [currentPage, currentAcceptedPage, ansid]);
+      }, [currentPage, currentAcceptedPage, ansid, accept, question.qid]);
 
     
     const handleNextPage = useCallback(() => {
+        console.log(data.answers);
         if(accept) {
             paginateAcceptedAnswers(ansid, question.qid, Math.min(currentAcceptedPage + 1, totalPages), answersPerPage).then((data) => {
                 setCurrentSetOfAnswers(data);
@@ -109,7 +107,7 @@ const AnswerPage = ({question}) => {
         setCurrentAcceptedPage((prevAcceptedPage) =>  {
             return prevAcceptedPage === totalPages ? 1 : Math.min(prevAcceptedPage + 1, totalPages);
         });
-    },[currentPage, currentAcceptedPage, ansid, data.answers])
+    },[currentPage, currentAcceptedPage, ansid, data.answers, accept, question.qid, totalPages])
 
   
     const handleChange = (e) => {
@@ -230,7 +228,8 @@ const AnswerPage = ({question}) => {
 
     const handleAnswerUpvote = (aid) => {
         if(user.reputation >= 50) {
-            dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: true, user: user.username, dispatch: authDispatch}));
+            dispatch(updateAnswerVoteThunk({qid:question.qid, aid: aid, isIncrement: true, user: user.username, dispatch: authDispatch}));
+            dispatch(findQuestionThunk()); 
         } else {
             setErrors(prevErrors => {
                 return { ...prevErrors, votes: "User cannot vote with reputation < 50" };
@@ -240,7 +239,8 @@ const AnswerPage = ({question}) => {
     }
     const handleAnswerDownvote = (aid) => {
         if(user.reputation >= 50) {
-            dispatch(updateAnswerVoteThunk({aid: aid, isIncrement: false, user: user.username, dispatch: authDispatch}));
+            dispatch(updateAnswerVoteThunk({qid: question.qid, aid: aid, isIncrement: false, user: user.username, dispatch: authDispatch}));
+            dispatch(findQuestionThunk()); 
         } else {
             setErrors(prevErrors => {
                 return { ...prevErrors, votes: "User cannot vote with reputation < 50" };

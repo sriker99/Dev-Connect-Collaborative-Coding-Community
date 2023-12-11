@@ -12,7 +12,7 @@ export const loginService = async (login) => {
 };
 
 export const logOutService = async () => {
-  const logout = await axios.post(`${API_URL}/logout`);
+    await axios.post(`${API_URL}/logout`);
     // localStorage.removeItem("user");
     // localStorage.removeItem("LoginToken");
   };

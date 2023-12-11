@@ -1,6 +1,7 @@
 // Run this script to test your schema
 // Start the mongoDB service as a background process before running the script
 // Pass URL of your mongoDB instance as first argument(e.g., mongodb://127.0.0.1:27017/fake_so)
+// eslint-disable-next-line no-undef
 let userArgs = process.argv.slice(2);
 
 if (!userArgs[0].startsWith('mongodb')) {

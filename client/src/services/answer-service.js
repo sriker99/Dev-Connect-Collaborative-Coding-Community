@@ -14,10 +14,11 @@ export const findAnswer = async () => {
     return answers;
 }
 
-export const updateAnswerVotes = async (aid, isIncrement, user) => {
-    const response = await axios.put(`${API_URL}/${aid}/votes?isIncrement=${isIncrement}&user=${user}`);
+export const updateAnswerVotes = async (qid, aid, isIncrement, user) => {
+    const response = await axios.put(`${API_URL}/${aid}/votes?isIncrement=${isIncrement}&user=${user}&qid=${qid}`);
     console.log("IN ANSWER SERVICE", response.data);
     const data = response.data;
+    console.log("response update ans votes", data)
     return data;
 }
 

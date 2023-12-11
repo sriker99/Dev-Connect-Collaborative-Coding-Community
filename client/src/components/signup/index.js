@@ -1,6 +1,6 @@
 import './index.css';
-import { Link,  useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { signupThunk } from '../../thunks/signup-thunks';
 
 const SignUp = () => {
@@ -41,14 +41,6 @@ const SignUp = () => {
         <form className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign Up</h3>
-            {/* <div className="text-center">
-              Already registered?{" "}
-              <span className="link-primary">
-                <Link to="/login"> 
-                    Log In
-                </Link>
-              </span>
-            </div> */}
             <div className="form-group mt-3">
               <label>Username</label>
               <input

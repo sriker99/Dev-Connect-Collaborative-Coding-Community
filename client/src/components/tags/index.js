@@ -10,7 +10,6 @@ const questionFormPageStatus = {
 }
  
 const GenerateTags = ({ data }) => {
-    const { loggedIn } = useAuthContext();
     const dispatch = useDispatch();
     return data.tags.map(tag => {
       const quesLength = data.questions.filter(t => t.tagIds.includes(tag.tid)).length;
@@ -29,6 +28,7 @@ const GenerateTags = ({ data }) => {
 };
  
 const AllTagsComponent = () => {
+  const { loggedIn } = useAuthContext();
     const data = useSelector(state => state.data);
     const dispatch = useDispatch();
     return (
@@ -36,7 +36,7 @@ const AllTagsComponent = () => {
           <div id="tag-title">
               <h2>{data.tags.length} Tags</h2>
               <h2>All Tags</h2>
-              <button id="ask-question" onClick={() => dispatch(updateNavState(questionFormPageStatus))}>Ask a Question</button>
+              {loggedIn && <button id="ask-question" onClick={() => dispatch(updateNavState(questionFormPageStatus))}>Ask a Question</button>}
           </div>
           <div id="tags-list">
               <GenerateTags data={data}/>

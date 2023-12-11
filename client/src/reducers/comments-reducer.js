@@ -19,13 +19,16 @@ const dataSlice = createSlice ({
             const { question, answers } = current(state);
             const updatedQuestion = question.map(comment => {
                 if (comment._id === updatedComment._id) {
+                    const newDate = new Date().toString();
                     return {
                         ...comment,
-                        votes: updatedComment.votes
+                        votes: updatedComment.votes,
+                        active_order: newDate
                     };
                 }
                 return comment;
             });
+            console.log("updated question", updatedQuestion);
             const updatedAnswers = {};
             for (const key in answers) {
                 if (Object.prototype.hasOwnProperty.call(answers, key)) {
@@ -53,7 +56,7 @@ const dataSlice = createSlice ({
         },
         [addCommentsToQuestion.fulfilled]: (state, {payload}) => {
             const newComment = payload;
-            const { question, answers } = current(state);
+            const { question} = current(state);
             const updatedQuestion = [newComment, ...question];
             const newState = {
                 ...state,
@@ -65,7 +68,7 @@ const dataSlice = createSlice ({
         [addCommentsToAnswer.fulfilled]: (state, {payload}) => {
             const {aid, comment} = payload;
             console.log("payload", payload);
-            const { question, answers } = current(state);
+            const { answers } = current(state);
             // let newAnswers = answers
 
             // newAnswers[aid] = [newComment, ...newAnswers[aid]]

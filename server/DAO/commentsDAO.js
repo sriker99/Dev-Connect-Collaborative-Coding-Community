@@ -52,9 +52,11 @@ const addCommentsToAnswer = async(aid, comment) => {
       }
 } 
 
-const updateCommentsVote = async(commentID) => {
+const updateCommentsVote = async(qid, commentID) => {
     try {
         // Increment votes in the comments model by 1
+        const currentTime = new Date();
+        await questionModel.findOneAndUpdate({_id: qid}, {$set: { active_order: currentTime }}, {new: true});
         const updatedComment = await commentModel.findByIdAndUpdate(
           commentID,
           { $inc: { votes: 1 } },

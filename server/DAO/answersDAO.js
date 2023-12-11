@@ -4,15 +4,24 @@ let commentsModel = require('../models/comments.js');
 
 
 const createAnswersAndUpdateQuestion = async(answer, qid) => {
+    const currentTime = new Date()
     const newAns = await answersModel.create(answer);
-    const updateQuestion = await questionsModel.findByIdAndUpdate(qid, {$push: {answers: newAns._id}}, {new: true});
+    const updateQuestion = await questionsModel.findByIdAndUpdate(qid, {$push: {answers: newAns._id}, $set: { active_order: currentTime }}, {new: true});
     return {newAns, updateQuestion};
 }
 const findAllAnswers = async() => await answersModel.find({});
 
-const upvoteAnswer = async(aid) => await answersModel.findOneAndUpdate({_id: aid}, {$inc: {votes: 1}}, {new: true});
+const upvoteAnswer = async(qid, aid) => {
+    const currentTime = new Date();
+    await questionsModel.findOneAndUpdate({_id: qid}, {$set: { active_order: currentTime }}, {new: true});
+    return await answersModel.findOneAndUpdate({_id: aid}, {$inc: {votes: 1}}, {new: true});
+}
 
-const downvoteAnswer = async(aid) => await answersModel.findOneAndUpdate({_id: aid}, {$inc: {votes: -1}}, {new: true});
+const downvoteAnswer = async(qid, aid) => {
+    const currentTime = new Date();
+    await questionsModel.findOneAndUpdate({_id: qid}, {$set: { active_order: currentTime }}, {new: true});
+    return await answersModel.findOneAndUpdate({_id: aid}, {$inc: {votes: -1}}, {new: true});
+}
 
 const acceptAnswer = async(aid, accept) => await answersModel.findOneAndUpdate({_id: aid}, {accept: accept}, {new: true});
 

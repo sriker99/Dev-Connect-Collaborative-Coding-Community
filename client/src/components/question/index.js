@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
 import './index.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateNavState } from '../../reducers/nav-reducer.js';
 import HomePage from '../FaceStackOverFlow/homepage/index.js';
 import { createQuestionThunk } from '../../thunks/question-thunks';
@@ -8,7 +8,6 @@ import { useAuthContext } from '../../hooks/useAuthContext.js';
 
 const QuestionForm = () => {
     const { user } = useAuthContext();
-    const data = useSelector(state => state.data);
     const [page, setPage] = useState('questionForm');
     const dispatch = useDispatch();
     const [input, setInput] = useState({
@@ -36,7 +35,7 @@ const QuestionForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = validateParameters(input);
+        const errors = validateParameters(user.reputation, input);
 
         if(Object.keys(errors).length === 0) {
             const newQuestion = createQuestion(input, user.username);
@@ -108,16 +107,16 @@ const QuestionForm = () => {
 };
 
 
-const validateParameters = (input) => {
-
+const validateParameters = (user, input) => {
     const errors = {};
-  
+    console.log("user", user);
+
+    
     if(input.title.trim() === '') {
       errors.title = "Empty title: 'Title cannot be empty'";
     } else if(input.title.length > 100) {
       errors.title = "Long title: 'Title cannot be more than 100 characters'";
     }
-
     if(input.text.trim() === '') {
       errors.text = "Empty text: 'Question text cannot be empty'";
     }
@@ -139,7 +138,10 @@ const validateParameters = (input) => {
     if(tagList.length > 5) {
       errors.tags = "Extra tags: 'Cannot have more than 5 tags'";
     }
-  
+    
+    if(user < 50){
+      errors.tags = "user reputation is less than 50";
+    }
     // if(input.username.trim() === '') {
     //   errors.username = "Empty username: 'Username cannot be empty'";
     // }

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { createQuestionThunk, findQuestionByIdThunk, findQuestionThunk, updateQuestionThunk, updateQuestionVoteThunk } from "../thunks/question-thunks.js";
 import { createTagThunk, findTagThunk } from "../thunks/tag-thunks.js";
 import { createAnswerThunk, findAnswerThunk, updateAnswerAcceptedThunk, updateAnswerVoteThunk } from "../thunks/answer-thunks.js";
@@ -71,13 +71,23 @@ const dataSlice = createSlice ({
             state.answers = payload;
         },
         [updateAnswerVoteThunk.fulfilled]: (state, { payload }) => {
+            console.log("in reducer", payload, payload.qid, current(state.questions));
             const updatedAnswers = state.answers.map(answer => {
-                if (answer.aid === payload.aid) {
-                    return payload;
+                if (answer.aid === payload.answer.aid) {
+                    return payload.answer;
                 }
                 return answer;
             });
-           return {...state, answers: updatedAnswers};
+            const updatedQuestions = state.questions.map(question => {
+                if (question.qid === payload.qid) {
+                    const activeOrder = new Date().toString();
+                    console.log("hiay");
+                    return{...question, active_order: activeOrder}
+                }
+                return question;
+            }) 
+            console.log('in reducer', {...state, answers: updatedAnswers, questions: updatedQuestions});
+           return {...state, answers: updatedAnswers, questions: updatedQuestions};
         },
         [updateAnswerAcceptedThunk.fulfilled]: (state, { payload }) => {
             const updatedAnswers = payload;

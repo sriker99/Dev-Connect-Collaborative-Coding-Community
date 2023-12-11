@@ -16,6 +16,7 @@ const fetchComments = async (req, res) => {
     let answerComments = await getAnswerCommentsByQID(qid);
     questionComments.sort((a, b) => new Date(b.date) - new Date(a.date));
     Object.entries(answerComments).forEach(([key, value]) => {
+        console.log(key);
         value.sort((a, b) => new Date(b.date) - new Date(a.date));
     });
     const response = {
@@ -27,14 +28,15 @@ const fetchComments = async (req, res) => {
 
 const updateVotes = async (req, res) => {
     const { cid } = req.params;
-    const updatedComment = await updateCommentsVote(cid);
+    const {qid} = req.body;
+    const updatedComment = await updateCommentsVote(qid, cid);
     res.send(updatedComment);
 }
 
 const addQComments = async (req, res) => {
     const { qid } = req.params;
     const clientNewComment = req.body;
-    const {updatedQuestion, newComment} = await addCommentsToQuestion(qid, clientNewComment);
+    const {newComment} = await addCommentsToQuestion(qid, clientNewComment);
     res.send(newComment);
 }
 

@@ -1,4 +1,3 @@
-let userModel = require('../models/users.js');
 let { findUserEmail, findUserName, createUser } = require('../DAO/usersDAO.js');
 const bcrypt = require('bcrypt');
 const validator = require('validator');

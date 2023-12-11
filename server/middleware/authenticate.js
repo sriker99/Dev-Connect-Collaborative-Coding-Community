@@ -8,6 +8,7 @@ const createToken = (_id) => {
 
 const authenticate = async (req, res, next) => {
     try {
+      console.log(next);
       const token = req.cookies.token;
       if (!token) {
         return res.json({ status: false })

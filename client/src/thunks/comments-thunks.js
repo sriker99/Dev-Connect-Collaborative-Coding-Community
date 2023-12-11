@@ -9,8 +9,8 @@ export const fetchComments = createAsyncThunk(
 
 export const updateVotes = createAsyncThunk(
     'comments/updateVote',
-    async (cid) => {
-        return await service.updateVotes(cid);
+    async ({qid, cid}) => {
+        return await service.updateVotes(qid, cid);
     });
 
 export const addCommentsToQuestion = createAsyncThunk(

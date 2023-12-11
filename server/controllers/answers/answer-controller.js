@@ -119,25 +119,26 @@ const acceptAnswerForQuestion = async (req, res) => {
 const updateAnswerVotes = async (req, res) => {
     const { aid } = req.params;
     const user = req.query.user;
+    const qid = req.query.qid;
     console.log("USERRR", user);
     const isIncrement = req.query.isIncrement === 'true';
     const currentUser = await findUserName(user);
     let updatedUser;
     let response;
     if(isIncrement) {
-        response = await upvoteAnswer(aid);
+        response = await upvoteAnswer(qid, aid);
         currentUser.reputation = currentUser.reputation + 5;
         updatedUser = await currentUser.save();
         console.log("Updated USER", updatedUser);
     } else {
         console.log("In else loop");
-        response = await downvoteAnswer(aid);
+        response = await downvoteAnswer(qid, aid);
         currentUser.reputation = currentUser.reputation - 10;
         updatedUser = await currentUser.save();
         console.log("Updated USER", updatedUser);
     }
     const answer = answerServerToClient(response);
-    res.send({answer: answer, user: updatedUser});
+    res.send({answer: answer, user: updatedUser, qid: qid});
 }
 
 const updateAcceptedAnswer = async (req, res) => {
@@ -150,7 +151,7 @@ const updateAcceptedAnswer = async (req, res) => {
         removeAnswerAcceptance(acceptedAnswer._id);
     }
     if(isAccepted) {
-        const response = await acceptAnswer(aid, isAccepted);
+        await acceptAnswer(aid, isAccepted);
     }
     const currentAnswers = await findAllAnswers();
     let updatedAnswers = [];

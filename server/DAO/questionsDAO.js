@@ -8,6 +8,7 @@ let {findAndCreateTags, findAllTags} = require('./TagsDAO.js');
 const createQuestions = async (question) => {
     const tags = question.tags;
     delete question.tags;
+    question.active_order = question.ask_date_time;
     const createdQuestion = await questionsModel.create(question);
     const qid = createdQuestion._id;
     const tagIds = await findAndCreateTags(tags, qid);
@@ -23,9 +24,15 @@ const findAllQuestions = async() => await questionsModel.find({}).populate({path
 
 const findQuestionByID = async(qid) => await questionsModel.findOne({_id: qid}).populate("tags").populate("answers").exec();
 
-const upvoteQuestion = async(qid) => await questionsModel.findOneAndUpdate({_id: qid}, {$inc: {votes: 1}}, {new: true});
+const upvoteQuestion = async(qid) => {
+    const currentTime = new Date()
+    return await questionsModel.findOneAndUpdate({_id: qid}, {$inc: {votes: 1}, $set: { active_order: currentTime }}, {new: true});
+}
 
-const downvoteQuestion = async(qid) => await questionsModel.findOneAndUpdate({_id: qid}, {$inc: {votes: -1}}, {new: true});
+const downvoteQuestion = async(qid) => {
+    const currentTime = new Date()
+    return await questionsModel.findOneAndUpdate({_id: qid}, {$inc: {votes: -1}, $set: { active_order: currentTime }}, {new: true});
+}
 
 const questionsInPage = async(skip, limit) => await questionsModel.find({}, null, {skip: skip, limit: limit});
 
@@ -125,6 +132,8 @@ const updateQuestion = async(qid, newTitle, newText, newTags) => {
         }
         question.tags = await tagsModel.find({ name: { $in: newTags } }).distinct("_id");
         // Save the updated question
+        const currentTime = new Date();
+        await question.findOneAndUpdate({_id: qid}, {$set: { active_order: currentTime }}, {new: true});
         const updatedQuestion = await question.save();
         console.log("Question updated:", updatedQuestion);
     } catch (error) {

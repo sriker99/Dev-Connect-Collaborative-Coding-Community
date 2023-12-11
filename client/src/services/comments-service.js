@@ -8,9 +8,12 @@ export const fetchComments = async(qid) => {
     return response.data;
 }
 
-export const updateVotes = async(cid) => {
+export const updateVotes = async(qid, cid) => {
     const endpoint = `${API_URL}/updateVotes/${String(cid)}`;
-    const response = await axios.put(endpoint);
+    const body = {
+        qid: qid
+    }
+    const response = await axios.put(endpoint, body);
     return response.data;
 }
 

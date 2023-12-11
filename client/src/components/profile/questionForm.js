@@ -7,6 +7,7 @@ import { findQuestionThunk } from "../../thunks/question-thunks";
 import { findTagThunk } from "../../thunks/tag-thunks";
 import { findAnswerThunk } from "../../thunks/answer-thunks";
 
+
 const QuestionForm = () => {
     const { user } = useAuthContext();
     const data = useSelector(state => state.data);
@@ -26,18 +27,18 @@ const QuestionForm = () => {
         tags: tagNamesForQuestion,
     });
     const [errors, setErrors] = useState({});
-    const clearForm = () => {
-      setInput({
-        title: '',
-        text: '',
-        tags: '',
-      });
-      setErrors({});
-    };
+    // const clearForm = () => {
+    //   setInput({
+    //     title: '',
+    //     text: '',
+    //     tags: '',
+    //   });
+    //   setErrors({});
+    // };
 
-    const questionFormPageStatus = {
-      pageStatus: 'questions'
-  }
+  //   const questionFormPageStatus = {
+  //     pageStatus: 'questions'
+  // }
 
     const handleChange = (e) => {
         setInput({...input, [e.target.name]: e.target.value})
@@ -53,7 +54,10 @@ const QuestionForm = () => {
 
     const handleEdit = (qid) => {
       const errors = validateParameters(input);
-      if(Object.keys(errors).length === 0) {
+      if(user.reputation < 50){
+        setErrors("user reputation is less than 50");
+      }
+      else if(Object.keys(errors).length === 0) {
         editQuestion(qid, {...input, tags: input.tags.split(' ')}).then((data) => {
           dispatch(findTagThunk());
           dispatch(findAnswerThunk());

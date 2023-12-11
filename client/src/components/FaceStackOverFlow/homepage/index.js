@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './index.css';
 import { useEffect, useState} from "react";
@@ -12,7 +13,7 @@ const questionFormPageStatus = {
     pageStatus: 'questionForm'
 }
 
-const sortQuesList = (order, questionState, answers, setQuesListOrder, sortActiveOrder) => {
+const sortQuesList = (order, questionState, answers, setQuesListOrder) => {
   let sortedData = []
   switch(order){
       case 'newest':
@@ -24,11 +25,14 @@ const sortQuesList = (order, questionState, answers, setQuesListOrder, sortActiv
           setQuesListOrder(sortedData);
           break;
       case 'active':
+          
           sortedData = [...questionState];
           if(sortedData.length > 0)
           {
-            sortActiveOrder(sortedData, answers);
+            sortedData.sort((a, b) => new Date(b.active_order) - new Date(a.active_order));
           }
+          setQuesListOrder(sortedData);
+          console.log('hoho', sortedData);
           break;
       case 'unanswered':
           sortedData = [...questionState];
@@ -66,7 +70,7 @@ const HomePage = ({questionButton}) => {
     const searchQuesObj = useSelector(state => state.nav.searchQuesObj);
     const sortKey = useSelector(state => state.nav.sort);
     const {loggedIn} = useAuthContext();
-     
+    
     useEffect(() => {
       if(searchPage){
         setQuestionState(searchQuesObj);
@@ -74,24 +78,24 @@ const HomePage = ({questionButton}) => {
       else{
         setQuestionState(questions);
       }
-      sortQuesList('newest', questionState, answers, setQuesListOrder, sortActiveOrder);
+      sortQuesList('newest', questionState, answers, setQuesListOrder);
             
     }, [questions, searchQuesObj, questionState, questionButton, searchPage, answers]);
 
-    const sortActiveOrder = (questions, answers) => {
-      const questionRecentAnswerDates = questions.map(question => {
-        const answerDates = question.ansIds.map(ansId => {
-          const answer = answers.find(answer => answer.aid === ansId);
-          return answer ? new Date(answer.ansDate) : null;
-        });
+    // const sortActiveOrder = (questions, answers) => {
+    //   const questionRecentAnswerDates = questions.map(question => {
+    //     const answerDates = question.ansIds.map(ansId => {
+    //       const answer = answers.find(answer => answer.aid === ansId);
+    //       return answer ? new Date(answer.ansDate) : null;
+    //     });
       
-        const mostRecentDate = new Date(Math.max(...answerDates.filter(date => date !== null)));
-        return { ...question, mostRecentDate };
-      });
+    //     const mostRecentDate = new Date(Math.max(...answerDates.filter(date => date !== null)));
+    //     return { ...question, mostRecentDate };
+    //   });
       
-      const sortedQuestions = questionRecentAnswerDates.sort((a, b) => b.mostRecentDate - a.mostRecentDate);
-      setQuesListOrder(sortedQuestions);
-    }
+    //   const sortedQuestions = questionRecentAnswerDates.sort((a, b) => b.mostRecentDate - a.mostRecentDate);
+    //   setQuesListOrder(sortedQuestions);
+    // }
 
     
     const HomePageUI = () => {
@@ -110,13 +114,13 @@ const HomePage = ({questionButton}) => {
                 <div id="sorting-buttons">
                   <h3 id="question-length">{quesListOrder.length} questions</h3>
                   <div>
-                    <button id="newest-sort" onClick={() => sortQuesList('newest', questionState, answers, setQuesListOrder, sortActiveOrder)}>
+                    <button id="newest-sort" onClick={() => sortQuesList('newest', questionState, answers, setQuesListOrder)}>
                       Newest
                     </button>
-                    <button id="active-sort" onClick={ () => sortQuesList('active', questionState, answers, setQuesListOrder, sortActiveOrder)}>
+                    <button id="active-sort" onClick={ () => sortQuesList('active', questionState, answers, setQuesListOrder)}>
                       Active
                     </button>
-                    <button id="unanswered-sort" onClick={ () => sortQuesList('unanswered', questionState, answers, setQuesListOrder, sortActiveOrder)}>
+                    <button id="unanswered-sort" onClick={ () => sortQuesList('unanswered', questionState, answers, setQuesListOrder)}>
                       Unanswered
                     </button>
                   </div>

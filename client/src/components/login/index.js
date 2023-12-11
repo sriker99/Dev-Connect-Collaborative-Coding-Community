@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Login = () => {
-    const { user } = useAuthContext();
     const navigate = useNavigate();
     const { dispatch } = useAuthContext();
 
@@ -75,9 +74,6 @@ const Login = () => {
                 Login
               </button>
             </div>
-            <p className="forgot-password text-right mt-2">
-              Forgot <a href="#">password?</a>
-            </p>
           </div>
         </form>
       </div>

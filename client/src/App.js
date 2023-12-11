@@ -1,6 +1,6 @@
 // ************** THIS IS YOUR APP'S ENTRY POINT. CHANGE THIS FILE AS NEEDED. **************
 // ************** DEFINE YOUR REACT COMPONENTS in ./components directory **************
-
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./components/welcome";
 import "bootstrap/dist/css/bootstrap.min.css";

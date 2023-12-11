@@ -1,6 +1,5 @@
 var {createQuestions, findAllQuestions, updateQuestionView, upvoteQuestion, downvoteQuestion, deleteDataByQid, updateQuestion} = require('../../DAO/questionsDAO.js');
 var {tagsServerToClient} = require("../tags/tag-controller.js");
-var { authenticate } = require("../../middleware/authenticate.js");
 const { findUserName } = require('../../DAO/usersDAO.js');
 
 const QuestionController = (app) => {
@@ -59,7 +58,8 @@ const findQuestion = async (req, res) => {
             askDate: element.ask_date_time,
             ansIds: element.answers,
             views: element.views,
-            votes: element.votes
+            votes: element.votes,
+            active_order: element.active_order
         })
     });
 
@@ -108,7 +108,7 @@ const updateQuestionVotes = async (req, res) => {
         console.log("Updated USER", updatedUser);
     }
   
-
+    console.log("response", response);
     const question = questionServerToClient(response);
     res.send({question: question, user: updatedUser});
   
@@ -123,7 +123,8 @@ const questionClientToServer = (element) => {
         ask_date_time: element.askDate.toString(),
         answers: element.ansIds,
         views: element.views,
-        votes: element.votes
+        votes: element.votes,
+        active_order: element.active_order
     };
 }
  
@@ -137,7 +138,8 @@ const questionServerToClient = (element) => {
         askDate: element.ask_date_time,
         ansIds: element.answers,
         views: element.views,
-        votes: element.votes
+        votes: element.votes,
+        active_order: element.active_order
     };
 }
 

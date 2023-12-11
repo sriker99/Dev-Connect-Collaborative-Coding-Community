@@ -12,7 +12,7 @@ const calculateNumOfDays = (date) => {
 
 }
 
-const profileData = () => {
+const ProfileData = () => {
     const { user } = useAuthContext();
     console.log("user in profileData", user)
     return(
@@ -27,4 +27,4 @@ const profileData = () => {
     )
 }
 
-export default profileData;
+export default ProfileData;

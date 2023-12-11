@@ -17,12 +17,12 @@ export const findAnswerThunk = createAsyncThunk(
 
 export const updateAnswerVoteThunk = createAsyncThunk(
   'answers/updateAnswerVote',
-  async ({aid, isIncrement, user, dispatch}) => {
+  async ({qid, aid, isIncrement, user, dispatch}) => {
     console.log("THUNK INC", user)
-   const data = await service.updateAnswerVotes(aid, isIncrement, user);
+   const data = await service.updateAnswerVotes(qid, aid, isIncrement, user);
    console.log("IN ANSWER THUNK", data);
    dispatch({ type: 'LOGIN', payload: data.user });
-   return data.answer;
+   return data;
 })
 
 export const updateAnswerAcceptedThunk = createAsyncThunk(
